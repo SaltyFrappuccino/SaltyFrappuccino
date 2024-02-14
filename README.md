@@ -1,7 +1,7 @@
 
 
-[![Codewars](https://www.codewars.com/users/MorugaShestak/badges/micro
-)](https://www.codewars.com/users/MorugaShestak) <--- *click*
+[![Codewars](https://www.codewars.com/users/SaltyFrappuccino/badges/micro
+)](https://www.codewars.com/users/SaltyFrappuccino) <--- *click*
 
 
 Hello there! 👋 I'm Alexander, a 19-year-old AIO (All-In-One) developer from Russia ![](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Russia.svg/20px-Flag_of_Russia.svg.png) with a passion for Fullstack development and a diverse range of interests. I enjoy exploring various domains, including ML, AI, Mobile Development, Desktop Development, Game Development, IoT, Algorithm Development, Code Golfing, Microservices, System Programming, and Competitive Programming.
