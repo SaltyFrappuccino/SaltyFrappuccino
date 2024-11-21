@@ -117,7 +117,6 @@
 ![Cypress](https://img.shields.io/badge/-Cypress-17202C?logo=cypress&logoColor=white)  
 ![Jest](https://img.shields.io/badge/-Jest-15B1F5?logo=jest&logoColor=white)  
 ![Postman](https://img.shields.io/badge/-Postman-FF6C37?logo=postman&logoColor=white)  
-![Prettier](https://img.shields.io/badge/-Prettier-FF6F00?logo=prettier&logoColor=white)  
 ![Swagger](https://img.shields.io/badge/-Swagger-85EA2D?logo=swagger&logoColor=white)  
 ![go-check](https://img.shields.io/badge/-go--check-4C9D7C?logo=go&logoColor=white)  
 ![CUnit](https://img.shields.io/badge/-CUnit-6E9F9D?logo=c&logoColor=white)  
