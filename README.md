@@ -136,6 +136,7 @@
 ![WPF](https://img.shields.io/badge/-WPF-3C3C3C?logo=windows&logoColor=white)  
 ![UWP](https://img.shields.io/badge/-UWP-2D5797?logo=microsoft&logoColor=white)  
 ![Windows Forms](https://img.shields.io/badge/-Windows_Forms-5C2D91?logo=microsoft&logoColor=white)  
+![Tkinter](https://img.shields.io/badge/-Tkinter-FFD43B?logo=python&logoColor=blue)<br/>
 ![Delphi VLC](https://img.shields.io/badge/-Delphi_Desktop-EE1C25?logo=delphi&logoColor=white)
 
 ---
