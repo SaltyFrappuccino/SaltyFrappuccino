@@ -1,0 +1,97 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Hello, I'm",
+    "name": "Alexander",
+    "nickname": "SaltyFrappuccino",
+    "role": "Fullstack Developer & AI Engineer",
+    "description": "Building the future with code. Creating AI agents, fullstack applications, and everything in between.",
+    "cta": {
+      "projects": "View Projects",
+      "contact": "Get in Touch"
+    },
+    "scroll": "Scroll"
+  },
+  "about": {
+    "title": "About Me",
+    "subtitle": "Who am I?",
+    "description": "I'm Alexander, 21 years old, from Russia 🇷🇺. I'm passionate about fullstack development and AI engineering. I create intelligent AI agents, build scalable web applications, and love exploring new technologies.",
+    "highlights": {
+      "experience": "Years of Experience",
+      "projects": "Projects Completed",
+      "technologies": "Technologies Mastered",
+      "coffee": "Cups of Coffee"
+    },
+    "focus": {
+      "title": "Current Focus",
+      "items": {
+        "fullstack": "Fullstack Development",
+        "ai": "AI Agents & LLM Integration",
+        "backend": "High-Performance Backend Systems",
+        "frontend": "Modern UI/UX Design"
+      }
+    }
+  },
+  "skills": {
+    "title": "Tech Stack",
+    "subtitle": "Technologies I work with",
+    "categories": {
+      "languages": "Programming Languages",
+      "backend": "Backend & API",
+      "frontend": "Frontend",
+      "ai": "AI & Machine Learning",
+      "devops": "DevOps & Cloud",
+      "databases": "Databases"
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "My GitHub repositories",
+    "viewAll": "View All on GitHub",
+    "viewRepo": "View Repository",
+    "stars": "Stars",
+    "forks": "Forks",
+    "loading": "Loading repositories...",
+    "error": "Failed to load repositories",
+    "noDescription": "No description provided",
+    "search": "Search projects...",
+    "all": "All",
+    "found": "Found",
+    "projects_count": "projects",
+    "loadMore": "Load More",
+    "filter": {
+      "sort": "Sort",
+      "byStars": "By Stars",
+      "byDate": "By Date",
+      "byName": "By Name",
+      "dateRange": "Date Range",
+      "allTime": "All Time",
+      "thisYear": "This Year",
+      "lastYear": "Last Year",
+      "clearAll": "Clear All"
+    }
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "Let's connect!",
+    "description": "Have a project in mind? Want to collaborate? Feel free to reach out!",
+    "links": {
+      "github": "GitHub",
+      "telegram": "Telegram",
+      "email": "Email"
+    },
+    "cta": "Send Message"
+  },
+  "footer": {
+    "copyright": "© 2026 SaltyFrappuccino. All rights reserved.",
+    "madeWith": "Made with",
+    "and": "and",
+    "tagline": "Powered by caffeine and neon dreams"
+  }
+}

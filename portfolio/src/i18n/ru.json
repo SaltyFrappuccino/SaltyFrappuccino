@@ -1,0 +1,97 @@
+{
+  "nav": {
+    "home": "Главная",
+    "about": "Обо мне",
+    "skills": "Навыки",
+    "projects": "Проекты",
+    "contact": "Контакты"
+  },
+  "hero": {
+    "greeting": "Привет, я",
+    "name": "Александр",
+    "nickname": "SaltyFrappuccino",
+    "role": "Fullstack-разработчик & AI-инженер",
+    "description": "Создаю будущее с помощью кода. Разрабатываю ИИ-агентов, fullstack-приложения и всё, что между ними.",
+    "cta": {
+      "projects": "Смотреть проекты",
+      "contact": "Связаться"
+    },
+    "scroll": "Листать"
+  },
+  "about": {
+    "title": "Обо мне",
+    "subtitle": "Кто я?",
+    "description": "Меня зовут Александр, мне 21 год, я из России 🇷🇺. Я увлечён fullstack-разработкой и AI-инженерией. Создаю интеллектуальных ИИ-агентов, строю масштабируемые веб-приложения и обожаю изучать новые технологии.",
+    "highlights": {
+      "experience": "Лет опыта",
+      "projects": "Проектов завершено",
+      "technologies": "Технологий освоено",
+      "coffee": "Чашек кофе"
+    },
+    "focus": {
+      "title": "Текущий фокус",
+      "items": {
+        "fullstack": "Fullstack-разработка",
+        "ai": "ИИ-агенты и интеграция с LLM",
+        "backend": "Высокопроизводительные backend-системы",
+        "frontend": "Современный UI/UX дизайн"
+      }
+    }
+  },
+  "skills": {
+    "title": "Технологии",
+    "subtitle": "Мой стек",
+    "categories": {
+      "languages": "Языки программирования",
+      "backend": "Backend & API",
+      "frontend": "Frontend",
+      "ai": "ИИ & Машинное обучение",
+      "devops": "DevOps & Облака",
+      "databases": "Базы данных"
+    }
+  },
+  "projects": {
+    "title": "Проекты",
+    "subtitle": "Мои репозитории на GitHub",
+    "viewAll": "Все репозитории на GitHub",
+    "viewRepo": "Открыть репозиторий",
+    "stars": "Звёзды",
+    "forks": "Форки",
+    "loading": "Загрузка репозиториев...",
+    "error": "Не удалось загрузить репозитории",
+    "noDescription": "Описание отсутствует",
+    "search": "Поиск проектов...",
+    "all": "Все",
+    "found": "Найдено",
+    "projects_count": "проектов",
+    "loadMore": "Загрузить ещё",
+    "filter": {
+      "sort": "Сортировка",
+      "byStars": "По звёздам",
+      "byDate": "По дате",
+      "byName": "По имени",
+      "dateRange": "Период",
+      "allTime": "Всё время",
+      "thisYear": "Этот год",
+      "lastYear": "Прошлый год",
+      "clearAll": "Очистить"
+    }
+  },
+  "contact": {
+    "title": "Связаться",
+    "subtitle": "Давайте общаться!",
+    "description": "Есть идея для проекта? Хотите сотрудничать? Свяжитесь со мной!",
+    "links": {
+      "github": "GitHub",
+      "telegram": "Telegram",
+      "email": "Email"
+    },
+    "cta": "Написать"
+  },
+  "footer": {
+    "copyright": "© 2026 SaltyFrappuccino. Все права защищены.",
+    "madeWith": "Сделано с",
+    "and": "и",
+    "tagline": "На кофеине и неоновых мечтах"
+  }
+}
