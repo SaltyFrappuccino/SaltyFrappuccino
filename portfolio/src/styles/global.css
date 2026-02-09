@@ -77,6 +77,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  scroll-snap-type: y proximity;
 }
 
 body {
@@ -174,6 +175,12 @@ a {
 .section {
   padding: var(--section-padding);
   position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
 }
 
 .section-header {
