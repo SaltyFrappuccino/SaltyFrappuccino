@@ -75,7 +75,8 @@ export default function InteractiveCosmos() {
 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
-    canvas.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('scroll', () => { resizeCanvas(); }); // Optional: Re-check rects on scroll
 
     let time = 0;
 
@@ -151,7 +152,8 @@ export default function InteractiveCosmos() {
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      canvas.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('scroll', resizeCanvas); 
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
   }, []);

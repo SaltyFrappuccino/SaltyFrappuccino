@@ -24,7 +24,7 @@ const SPAWN_RATE = 0.012;
 
 const randomChar = () => CHARS[Math.floor(Math.random() * CHARS.length)];
 
-export default function TerminalRain() {
+export default function TerminalRain({ isActive = true }: { isActive?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const columnsRef = useRef<Column[]>([]);
   const animationRef = useRef<number | undefined>(undefined);
@@ -65,7 +65,7 @@ export default function TerminalRain() {
             y: Math.random() * canvas.height,
             char: randomChar(),
             opacity: 0.3 + Math.random() * 0.4,
-            fadeSpeed: 0.002 + Math.random() * 0.004,
+            fadeSpeed: 0.0001, // Almost no fade for initial static drops
             trail: [],
           });
         }
@@ -84,7 +84,10 @@ export default function TerminalRain() {
             y: -FONT_SIZE,
             char: randomChar(),
             opacity: 0.6 + Math.random() * 0.4,
-            fadeSpeed: 0.002 + Math.random() * 0.004,
+            // Calculate fade speed so it lasts the full height:
+            // timeToBottom = height / speed
+            // fadeSpeed = opacity / timeToBottom
+            fadeSpeed: (0.6 + Math.random() * 0.4) / (canvas.height / col.speed) * 0.5, // 0.5 safety factor
             trail: [],
           });
         }
@@ -131,7 +134,10 @@ export default function TerminalRain() {
 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
-    animate();
+    
+    if (isActive) {
+      animate();
+    }
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
@@ -139,7 +145,7 @@ export default function TerminalRain() {
       canvas.removeEventListener('mouseleave', onMouseLeave);
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, []);
+  }, [isActive]);
 
   return (
     <canvas

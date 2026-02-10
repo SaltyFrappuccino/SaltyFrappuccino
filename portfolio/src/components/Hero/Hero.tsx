@@ -224,8 +224,6 @@ export default function Hero() {
             <motion.button
               className="btn btn-primary"
               onClick={() => scrollTo('projects')}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               <Github size={20} />
               {t('hero.cta.projects')}
@@ -233,8 +231,6 @@ export default function Hero() {
             <motion.button
               className="btn btn-secondary"
               onClick={() => scrollTo('contact')}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               <Send size={20} />
               {t('hero.cta.contact')}

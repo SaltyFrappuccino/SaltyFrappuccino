@@ -51,6 +51,8 @@ export default function Projects() {
 
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  // Separate ref/check for background performance (toggles continuously)
+  const isBackgroundActive = useInView(ref, { margin: '100px 0px 100px 0px' });
 
   const [selectedRepo, setSelectedRepo] = useState<Repository | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -120,7 +122,7 @@ export default function Projects() {
 
   return (
     <section id="projects" className="projects section" ref={ref}>
-      <DataCubes />
+      <DataCubes isActive={isBackgroundActive} />
 
       <div className="container">
         <motion.div
@@ -222,8 +224,6 @@ export default function Projects() {
             <motion.button
               className={`filter-tag ${activeLanguages.length === 0 ? 'active' : ''}`}
               onClick={() => setActiveLanguages([])}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               {t('projects.all')}
             </motion.button>
@@ -232,8 +232,6 @@ export default function Projects() {
                 key={lang}
                 className={`filter-tag ${activeLanguages.includes(lang) ? 'active' : ''}`}
                 onClick={() => toggleLanguage(lang)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 style={{
                   borderColor: activeLanguages.includes(lang) ? LANGUAGE_COLORS[lang] : undefined,
                   boxShadow: activeLanguages.includes(lang) ? `0 0 15px ${LANGUAGE_COLORS[lang]}40` : undefined,
@@ -278,7 +276,6 @@ export default function Projects() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: index < PAGE_SIZE ? index * 0.05 : 0 }}
                   layout
-                  whileHover={{ y: -8 }}
                   onClick={() => setSelectedRepo(repo)}
                 >
                   <div className="project-header">
@@ -348,8 +345,6 @@ export default function Projects() {
                 <motion.button
                   className="btn btn-secondary load-more-btn"
                   onClick={() => setDisplayCount((prev) => prev + PAGE_SIZE)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                 >
                   <ChevronDown size={20} />
                   {t('projects.loadMore')}

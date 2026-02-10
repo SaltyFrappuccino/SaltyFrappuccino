@@ -61,10 +61,7 @@
   filter: drop-shadow(0 0 8px rgba(212, 165, 116, 0.5));
 }
 
-.footer-copyright {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
+
 
 /* Glowing Neon Text */
 .footer-neon-text {

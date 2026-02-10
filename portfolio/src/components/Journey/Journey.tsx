@@ -25,11 +25,12 @@ export default function Journey() {
   const { t } = useTranslation();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isBackgroundActive = useInView(ref, { margin: '100px 0px 100px 0px' });
 
   return (
     <section id="journey" className="journey section" ref={ref}>
       <div className="journey-bg">
-        <JourneyBackground />
+        <JourneyBackground isActive={isBackgroundActive} />
       </div>
 
       <div className="container">

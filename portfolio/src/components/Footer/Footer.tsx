@@ -27,7 +27,7 @@ export default function Footer() {
             <span className="antigravity-text">Antigravity</span>
           </div>
 
-          <p className="footer-copyright">{t('footer.copyright')}</p>
+
           
           <p className="footer-neon-text">{t('footer.tagline')}</p>
         </div>

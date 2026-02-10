@@ -139,10 +139,6 @@ export default function Skills() {
                     key={skill.name}
                     className="skill-tag"
                     variants={itemVariants}
-                    whileHover={{
-                      scale: 1.1,
-                      boxShadow: `0 0 20px ${skill.color}40`,
-                    }}
                     style={{ '--skill-color': skill.color } as React.CSSProperties}
                   >
                     <span className="skill-dot" style={{ backgroundColor: skill.color }} />

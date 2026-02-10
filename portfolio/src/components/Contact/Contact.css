@@ -47,8 +47,9 @@
   border: 1px solid rgba(0, 212, 255, 0.1);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: all var(--transition-normal);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   backdrop-filter: blur(10px);
+  will-change: transform;
 }
 
 .contact-card::before {
@@ -65,7 +66,7 @@
 
 .contact-card:hover {
   border-color: var(--contact-color, rgba(0, 212, 255, 0.3));
-  transform: translateY(-3px) translateX(5px);
+  transform: translateY(-3px) translateX(5px) scale(1.02);
   box-shadow: 0 0 30px rgba(var(--contact-rgb, 0, 212, 255), 0.1);
 }
 
@@ -138,16 +139,17 @@
   border-left: 1px solid var(--border-subtle);
   color: var(--text-muted);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
 
 .copy-btn:hover {
   background: rgba(0, 212, 255, 0.1);
   color: var(--accent-cyan);
+  transform: scale(1.1);
 }
 
 .copy-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.9);
 }
 
 .copy-btn svg {

@@ -61,6 +61,7 @@ export default function Achievements() {
   const { t } = useTranslation();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isBackgroundActive = useInView(ref, { margin: '100px 0px 100px 0px' });
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
 
   const handleOpen = (item: Achievement) => {
@@ -70,7 +71,7 @@ export default function Achievements() {
   return (
     <section id="achievements" className="achievements section" ref={ref}>
       <div className="achievements-bg">
-        <AchievementsBackground />
+        <AchievementsBackground isActive={isBackgroundActive} />
       </div>
 
       <div className="container">
@@ -107,7 +108,6 @@ export default function Achievements() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.1 + index * 0.05 }}
-              whileHover={{ y: -5, scale: 1.02 }}
             >
               {item.type === 'image' ? (
                 <div

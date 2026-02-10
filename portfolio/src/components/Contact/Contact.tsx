@@ -25,6 +25,7 @@ export default function Contact() {
   const { t } = useTranslation();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isBackgroundActive = useInView(ref, { margin: '100px 0px 100px 0px' });
   const [copied, setCopied] = useState<string | null>(null);
 
   const copyToClipboard = (text: string, id: string) => {
@@ -35,7 +36,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="contact section" ref={ref}>
-      <TerminalRain />
+      <TerminalRain isActive={isBackgroundActive} />
 
       <div className="container">
         <motion.div
@@ -70,7 +71,6 @@ export default function Contact() {
                 key={contact.id}
                 className="contact-card"
                 variants={itemVariants}
-                whileHover={{ scale: 1.02 }}
                 style={{ '--contact-color': contact.color } as React.CSSProperties}
               >
                 <a
@@ -93,8 +93,6 @@ export default function Contact() {
                     e.preventDefault();
                     copyToClipboard(contact.value, contact.id);
                   }}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
                   title="Copy"
                 >
                   {copied === contact.id ? <Check size={16} className="copied" /> : <Copy size={16} />}

@@ -1,7 +1,20 @@
 import { useEffect, useRef } from 'react';
 
-export default function AchievementsBackground() {
+interface AchievementsBackgroundProps {
+  isActive?: boolean;
+}
+
+export default function AchievementsBackground({ isActive = true }: AchievementsBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number>();
+  const particlesRef = useRef<{
+    x: number;
+    y: number;
+    size: number;
+    speed: number;
+    opacity: number;
+    color: string;
+  }[]>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -13,122 +26,81 @@ export default function AchievementsBackground() {
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
 
-    // Hexagon configuration
-    const hexRadius = 30;
-    const hexHeight = Math.sqrt(3) * hexRadius;
-    const hexWidth = 2 * hexRadius;
-    const hexVertDist = hexHeight;
-    const hexHorizDist = 1.5 * hexRadius;
+    // particle config
+    const PARTICLE_COUNT = 80;
+    
+    // colors moved inside or kept const outside
+    const colors = [
+      'rgba(0, 212, 255, ', // Cyan
+      'rgba(168, 85, 247, ', // Purple
+      'rgba(255, 255, 255, ' // White
+    ];
 
-    let mouseX = -1000;
-    let mouseY = -1000;
-
-    interface Hex {
-      x: number;
-      y: number;
-      activeLevel: number; // 0 to 1
-    }
-
-    let hexes: Hex[] = [];
-
-    const initHexes = () => {
-      hexes = [];
-      const cols = Math.ceil(width / hexHorizDist) + 2;
-      const rows = Math.ceil(height / hexVertDist) + 2;
-
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          const xOffset = (c % 2 === 1) ? hexHeight / 2 : 0;
-          const x = c * hexHorizDist;
-          const y = r * hexVertDist - xOffset;
-          hexes.push({ x, y, activeLevel: 0 });
-        }
-      }
+    const resetParticle = (index: number, randomY = false) => {
+      const size = Math.random() * 2 + 1;
+      const x = Math.random() * width;
+      const y = randomY ? Math.random() * height : height + 10;
+      const speed = Math.random() * 0.5 + 0.2;
+      const opacity = Math.random() * 0.5 + 0.1;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      
+      particlesRef.current[index] = { x, y, size, speed, opacity, color };
     };
 
-    initHexes();
-
-    const drawHexagon = (x: number, y: number, r: number) => {
-      ctx.beginPath();
-      for (let i = 0; i < 6; i++) {
-        const angle = (Math.PI / 3) * i;
-        ctx.lineTo(x + r * Math.cos(angle), y + r * Math.sin(angle));
+    const initParticles = () => {
+      // Only init if empty (first run) or resize cleared it
+      if (particlesRef.current.length === 0) {
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          resetParticle(i, true);
+        }
       }
-      ctx.closePath();
     };
 
     const handleResize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-      initHexes();
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
+      // Re-init positions if needed, or just let them flow. 
+      // Usually better to re-distribute if width changes drastically, 
+      // but strictly preserving is also fine. Let's just re-init to strictly match bounds.
+      particlesRef.current = []; 
+      initParticles();
     };
 
     window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
-
-    let animationId: number;
+    initParticles();
 
     const draw = () => {
+      if (!isActive) return;
+
+      // Clear canvas
       ctx.clearRect(0, 0, width, height);
-      
-      // Background gradient
-      // ctx.fillStyle = 'rgba(10, 10, 20, 1)';
-      // ctx.fillRect(0, 0, width, height);
 
-      hexes.forEach(hex => {
-        // Calculate distance to mouse
-        const dx = hex.x - mouseX;
-        const dy = hex.y - mouseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        // Activation radius
-        const maxDist = 200;
-        let targetLevel = 0;
-        
-        if (dist < maxDist) {
-            targetLevel = 1 - (dist / maxDist);
+      particlesRef.current.forEach((p, i) => {
+        // Move up
+        p.y -= p.speed;
+
+        // Reset if off screen
+        if (p.y < -10) {
+          resetParticle(i);
         }
 
-        // Decay/Grow
-        hex.activeLevel += (targetLevel - hex.activeLevel) * 0.1;
-
-        if (hex.activeLevel > 0.01) {
-            drawHexagon(hex.x, hex.y, hexRadius - 2); // Slightly smaller for spacing
-            
-            // Stroke
-            ctx.strokeStyle = `rgba(0, 212, 255, ${hex.activeLevel * 0.3})`;
-            ctx.lineWidth = 1;
-            ctx.stroke();
-
-            // Fill
-            ctx.fillStyle = `rgba(168, 85, 247, ${hex.activeLevel * 0.1})`;
-            ctx.fill();
-        } else {
-             // Very faint grid always visible?
-             drawHexagon(hex.x, hex.y, hexRadius - 2);
-             ctx.strokeStyle = `rgba(255, 255, 255, 0.03)`;
-             ctx.lineWidth = 1;
-             ctx.stroke();
-        }
+        // Draw square (data bit)
+        ctx.fillStyle = p.color + p.opacity + ')';
+        ctx.fillRect(p.x, p.y, p.size, p.size);
       });
 
-      animationId = requestAnimationFrame(draw);
+      animationRef.current = requestAnimationFrame(draw);
     };
 
-    draw();
+    if (isActive) {
+      animationRef.current = requestAnimationFrame(draw);
+    }
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
-      cancelAnimationFrame(animationId);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, []);
+  }, [isActive]);
 
   return (
     <canvas

@@ -126,7 +126,7 @@
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   color: var(--text-secondary);
-  transition: all var(--transition-normal);
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
   cursor: default;
   position: relative;
   overflow: hidden;
@@ -148,7 +148,7 @@
   background: var(--bg-card-hover);
   border-color: var(--accent-cyan);
   color: var(--text-primary);
-  transform: translateX(8px);
+  /* transform handled by framer */
   box-shadow: var(--glow-cyan);
 }
 
@@ -176,7 +176,7 @@
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  transition: all var(--transition-normal);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
 }
@@ -204,7 +204,7 @@
 
 .stat-card:hover {
   border-color: var(--accent-cyan);
-  transform: translateY(-5px);
+  /* transform handled by framer */
   box-shadow: var(--glow-cyan), var(--shadow-lg);
 }
 
@@ -275,7 +275,7 @@
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  transition: all 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
   cursor: default;
 }
 
