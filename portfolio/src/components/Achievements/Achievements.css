@@ -182,6 +182,28 @@
   box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
 }
 
+/* PDF card purple accent */
+.achievement-card.pdf:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.1), var(--shadow-lg);
+}
+
+.achievement-card.pdf .achievement-year {
+  color: #a855f7;
+  background: rgba(168, 85, 247, 0.1);
+}
+
+.achievement-card.pdf .achievement-btn {
+  color: #a855f7;
+  background: rgba(168, 85, 247, 0.08);
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+.achievement-card.pdf .achievement-btn:hover {
+  background: rgba(168, 85, 247, 0.15);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+}
+
 /* Lightbox */
 .lightbox-overlay {
   position: fixed;
