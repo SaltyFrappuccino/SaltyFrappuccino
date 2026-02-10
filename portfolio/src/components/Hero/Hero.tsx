@@ -12,7 +12,7 @@ const CODE_FILES = [
   name: "Alexander",
   aka: "SaltyFrappuccino",
   age: 21,
-  location: "Russia 🇷🇺",
+  location: "Russia",
   
   skills: [
     "Fullstack",
@@ -34,7 +34,7 @@ const CODE_FILES = [
     "name": "Alexander",
     "aka": "SaltyFrappuccino",
     "age": 21,
-    "location": "Russia 🇷🇺",
+    "location": "Russia",
     
     "skills": [
         "Fullstack",
@@ -63,7 +63,7 @@ var developer = Developer{
     Name:     "Alexander",
     Aka:      "SaltyFrappuccino",
     Age:      21,
-    Location: "Russia 🇷🇺",
+    Location: "Russia",
     Skills:   []string{
         "Fullstack",
         "AI Engineering",
@@ -82,7 +82,7 @@ func GetDrink() string {
     String name = "Alexander";
     String aka = "SaltyFrappuccino";
     int age = 21;
-    String location = "Russia 🇷🇺";
+    String location = "Russia";
     
     String[] skills = {
         "Fullstack",
@@ -110,7 +110,7 @@ const DEVELOPER: Developer = Developer {
     name: "Alexander",
     aka: "SaltyFrappuccino",
     age: 21,
-    location: "Russia 🇷🇺",
+    location: "Russia",
     skills: vec![
         "Fullstack",
         "AI Engineering",
