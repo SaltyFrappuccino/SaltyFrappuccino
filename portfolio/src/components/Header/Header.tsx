@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Globe } from 'lucide-react';
 import './Header.css';
 
-const NAV_ITEMS = ['home', 'about', 'skills', 'projects', 'contact'] as const;
+const NAV_ITEMS = ['home', 'about', 'journey', 'skills', 'achievements', 'projects', 'contact'] as const;
 
 export default function Header() {
   const { t, i18n } = useTranslation();

@@ -1,15 +1,15 @@
 import { useTranslation } from 'react-i18next';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Code2, Brain, Rocket, Zap } from 'lucide-react';
+import { Code2, Brain, Rocket, Bot, MousePointerClick, Terminal, Monitor, Edit3 } from 'lucide-react';
 import FlyingParticles from './FlyingParticles';
 import './About.css';
 
 const stats = [
   { key: 'experience', value: '3+', icon: Code2 },
   { key: 'projects', value: '50+', icon: Rocket },
-  { key: 'technologies', value: '30+', icon: Zap },
-  { key: 'coffee', value: '∞', icon: Brain },
+  { key: 'technologies', value: '30+', icon: Brain },
+  { key: 'agents', value: '4', icon: Bot },
 ];
 
 const focusItems = [
@@ -17,6 +17,13 @@ const focusItems = [
   { key: 'ai', icon: '🤖' },
   { key: 'backend', icon: '⚡' },
   { key: 'frontend', icon: '🎨' },
+];
+
+const devTools = [
+  { key: 'cursor', icon: MousePointerClick, color: '#00d4ff' },
+  { key: 'antigravity', icon: Terminal, color: '#a855f7' },
+  { key: 'vscode', icon: Monitor, color: '#3b82f6' },
+  { key: 'nvim', icon: Edit3, color: '#10b981' },
 ];
 
 const containerVariants = {
@@ -58,6 +65,20 @@ export default function About() {
           >
             <p className="about-description">{t('about.description')}</p>
 
+            {/* AI Philosophy */}
+            <motion.div
+              className="philosophy-block"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.4 }}
+            >
+              <h3 className="philosophy-title">{t('about.philosophy.title')}</h3>
+              <blockquote className="philosophy-quote">
+                {t('about.philosophy.text')}
+              </blockquote>
+            </motion.div>
+
+            {/* Focus */}
             <div className="about-focus">
               <h3>{t('about.focus.title')}</h3>
               <motion.div
@@ -81,33 +102,71 @@ export default function About() {
             </div>
           </motion.div>
 
-          <motion.div
-            className="about-stats"
-            variants={containerVariants}
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-          >
-            {stats.map((stat) => {
-              const Icon = stat.icon;
-              return (
-                <motion.div
-                  key={stat.key}
-                  className="stat-card"
-                  variants={itemVariants}
-                  whileHover={{
-                    scale: 1.05,
-                    boxShadow: '0 0 30px rgba(0, 255, 249, 0.3)',
-                  }}
-                >
-                  <div className="stat-icon">
-                    <Icon size={28} />
-                  </div>
-                  <div className="stat-value">{stat.value}</div>
-                  <div className="stat-label">{t(`about.highlights.${stat.key}`)}</div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
+          <div className="about-right">
+            {/* Stats */}
+            <motion.div
+              className="about-stats"
+              variants={containerVariants}
+              initial="hidden"
+              animate={isInView ? 'visible' : 'hidden'}
+            >
+              {stats.map((stat) => {
+                const Icon = stat.icon;
+                return (
+                  <motion.div
+                    key={stat.key}
+                    className="stat-card"
+                    variants={itemVariants}
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: '0 0 30px rgba(0, 255, 249, 0.3)',
+                    }}
+                  >
+                    <div className="stat-icon">
+                      <Icon size={28} />
+                    </div>
+                    <div className="stat-value">{stat.value}</div>
+                    <div className="stat-label">{t(`about.highlights.${stat.key}`)}</div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+
+            {/* Dev Tools */}
+            <motion.div
+              className="devtools-section"
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.5 }}
+            >
+              <h3 className="devtools-title">{t('about.devtools.title')}</h3>
+              <div className="devtools-grid">
+                {devTools.map((tool) => {
+                  const Icon = tool.icon;
+                  return (
+                    <motion.div
+                      key={tool.key}
+                      className="devtool-card"
+                      whileHover={{ scale: 1.05, y: -3 }}
+                      style={{ '--tool-color': tool.color } as React.CSSProperties}
+                    >
+                      <div className="devtool-icon">
+                        <Icon size={20} />
+                      </div>
+                      <div className="devtool-info">
+                        <span className="devtool-name">
+                          {t(`about.devtools.${tool.key}.name`)}
+                        </span>
+                        <span className="devtool-desc">
+                          {t(`about.devtools.${tool.key}.desc`)}
+                        </span>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
 

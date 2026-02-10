@@ -250,13 +250,15 @@
   background: rgba(13, 17, 23, 0.95);
   border: 1px solid rgba(168, 85, 247, 0.3);
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  /* overflow: hidden; Removed to allow dropdown to show */
   box-shadow: 
     0 0 40px rgba(168, 85, 247, 0.15),
     0 0 80px rgba(236, 72, 153, 0.1),
     0 20px 60px rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(10px);
   transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
 }
 
 .code-window:hover {
@@ -274,6 +276,7 @@
   padding: 14px 16px;
   background: rgba(0, 0, 0, 0.4);
   border-bottom: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0; /* Manual border radius */
 }
 
 .code-dot {
@@ -390,6 +393,7 @@
   padding: 8px;
   background: rgba(0, 0, 0, 0.3);
   border-top: 1px solid var(--border-subtle);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg); /* Manual border radius */
 }
 
 .drag-hint span {
@@ -398,6 +402,56 @@
   color: var(--text-muted);
   letter-spacing: 0.1em;
   opacity: 0.6;
+}
+
+/* Tooltip */
+.hero-name-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.hero-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(13, 17, 23, 0.95);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  width: 280px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-shadow: none;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+  z-index: 100;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  margin-top: 10px;
+}
+
+.hero-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid rgba(168, 85, 247, 0.3);
+}
+
+.hero-tooltip::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid rgba(13, 17, 23, 0.95);
 }
 
 /* ==========================================

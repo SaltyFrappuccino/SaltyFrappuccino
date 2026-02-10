@@ -1,0 +1,208 @@
+.journey {
+  position: relative;
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+/* Background Glows */
+.journey-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--accent-cyan) 15%,
+    var(--accent-purple) 50%,
+    var(--accent-pink) 85%,
+    transparent 100%
+  );
+  transform: translateX(-50%);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+/* Timeline Item */
+.timeline-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.timeline-item.left {
+  justify-content: flex-start;
+  padding-right: calc(50% + 40px);
+}
+
+.timeline-item.right {
+  justify-content: flex-end;
+  padding-left: calc(50% + 40px);
+}
+
+/* Timeline Node */
+.timeline-node {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 2px solid var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover .timeline-node {
+  transform: translateX(-50%) scale(1.15);
+}
+
+/* Timeline Card */
+.timeline-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  position: relative;
+  transition: all 0.3s ease;
+  width: 100%;
+  cursor: default;
+  overflow: hidden;
+}
+
+.timeline-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--card-accent, var(--gradient-primary));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.timeline-item:hover .timeline-card::before {
+  opacity: 1;
+}
+
+.timeline-card:hover {
+  border-color: var(--border-medium);
+}
+
+.timeline-period {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--card-accent, var(--accent-cyan));
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  background: rgba(0, 212, 255, 0.08);
+  border-radius: 4px;
+}
+
+.timeline-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.timeline-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .timeline-line {
+    left: 24px;
+  }
+
+  .timeline-item.left,
+  .timeline-item.right {
+    padding-left: 64px;
+    padding-right: 0;
+    justify-content: flex-start;
+  }
+
+  .timeline-node {
+    left: 24px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .timeline-node svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .timeline-card {
+    padding: 20px;
+  }
+
+  .timeline-item {
+    margin-bottom: 28px;
+  }
+}
+
+/* Chill mode */
+body.chill-mode .journey {
+  background: linear-gradient(180deg, #111319 0%, #0f1117 100%);
+}
+
+body.chill-mode .journey-glow {
+  display: none;
+}
+
+body.chill-mode .timeline-line {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 15%,
+    rgba(255, 255, 255, 0.08) 85%,
+    transparent 100%
+  );
+  box-shadow: none;
+}
+
+body.chill-mode .timeline-node {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: none !important;
+}
+
+body.chill-mode .timeline-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+body.chill-mode .timeline-period {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.5);
+}

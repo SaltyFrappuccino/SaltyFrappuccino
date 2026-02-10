@@ -17,7 +17,6 @@ import {
 import { useGitHubRepos, type Repository } from '../../hooks/useGitHubRepos';
 import DataCubes from './DataCubes';
 import './Projects.css';
-
 const LANGUAGE_COLORS: Record<string, string> = {
   TypeScript: '#3178C6',
   JavaScript: '#F7DF1E',
@@ -132,6 +131,9 @@ export default function Projects() {
         >
           <span className="section-subtitle">{t('projects.subtitle')}</span>
           <h2 className="section-title neon-text">{t('projects.title')}</h2>
+          <p className="section-description-nda">
+            {t('projects.ndaNote')}
+          </p>
         </motion.div>
 
         <motion.div

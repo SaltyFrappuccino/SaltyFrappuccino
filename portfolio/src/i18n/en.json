@@ -2,7 +2,9 @@
   "nav": {
     "home": "Home",
     "about": "About",
+    "journey": "Journey",
     "skills": "Skills",
+    "achievements": "Achievements",
     "projects": "Projects",
     "contact": "Contact"
   },
@@ -10,6 +12,7 @@
     "greeting": "Hello, I'm",
     "name": "Alexander",
     "nickname": "SaltyFrappuccino",
+    "nameExplanation": "Salty Caramel + Frappuccino = SaltyFrappuccino. My favorite coffee, hence the name, and I'm a coffee addict in general. ☕",
     "role": "Fullstack Developer & AI Engineer",
     "description": "Building the future with code. Creating AI agents, fullstack applications, and everything in between.",
     "cta": {
@@ -21,12 +24,12 @@
   "about": {
     "title": "About Me",
     "subtitle": "Who am I?",
-    "description": "I'm Alexander, 21 years old, from Russia 🇷🇺. I'm passionate about fullstack development and AI engineering. I create intelligent AI agents, build scalable web applications, and love exploring new technologies.",
+    "description": "I'm Alexander, 21 years old, from Russia 🇷🇺. AI Agent Systems Specialist at Sber and a teacher at Quantorium. I create intelligent AI agents, build scalable web applications, and teach the next generation of developers.",
     "highlights": {
       "experience": "Years of Experience",
       "projects": "Projects Completed",
       "technologies": "Technologies Mastered",
-      "coffee": "Cups of Coffee"
+      "agents": "AI Agents in Prod"
     },
     "focus": {
       "title": "Current Focus",
@@ -35,6 +38,65 @@
         "ai": "AI Agents & LLM Integration",
         "backend": "High-Performance Backend Systems",
         "frontend": "Modern UI/UX Design"
+      }
+    },
+    "philosophy": {
+      "title": "🤖 AI & Coding",
+      "text": "Fighting progress is futile. The best approach is when AI is your programming partner, not the programmer itself. AI amplifies the developer but doesn't replace them."
+    },
+    "devtools": {
+      "title": "🛠 My Tools",
+      "cursor": {
+        "name": "Cursor",
+        "desc": "AI-powered development, personal projects"
+      },
+      "antigravity": {
+        "name": "Antigravity",
+        "desc": "AI pair-programming, complex tasks"
+      },
+      "vscode": {
+        "name": "VS Code",
+        "desc": "Java at Sber, enterprise development"
+      },
+      "nvim": {
+        "name": "Neovim",
+        "desc": "Chill coding, C++, ASMR, Kata solving"
+      }
+    }
+  },
+  "journey": {
+    "title": "My Journey",
+    "subtitle": "Career Path",
+    "items": {
+      "quantorium1": {
+        "period": "Start",
+        "title": "Quantorium + Kalashnikov Academy",
+        "desc": "First steps in the IT world. Learning programming, robotics, and future technologies."
+      },
+      "gameford": {
+        "period": "Age 17",
+        "title": "GameFord — First Job",
+        "desc": "First professional experience in gamedev. Diving into real-world development."
+      },
+      "sber_ai": {
+        "period": "Age 18",
+        "title": "Sber — AI Engineer",
+        "desc": "Joining Russia's largest IT company. Starting the journey in artificial intelligence."
+      },
+      "sber_fullstack": {
+        "period": "At Sber",
+        "title": "Sber — Fullstack Developer",
+        "desc": "Expanding expertise: from AI to full-fledged fullstack development."
+      },
+      "teacher": {
+        "period": "Age 19",
+        "title": "Teacher at Quantorium",
+        "desc": "Started teaching neural networks and basic Python to the next generation."
+      },
+      "current": {
+        "period": "Now",
+        "title": "AI Agent Systems + Teacher",
+        "desc": "AI Agent Systems Specialist at Sber. Launched 4 AI agents to production. Continuing to teach at Quantorium."
       }
     }
   },
@@ -47,12 +109,24 @@
       "frontend": "Frontend",
       "ai": "AI & Machine Learning",
       "devops": "DevOps & Cloud",
-      "databases": "Databases"
+      "databases": "Databases",
+      "tools": "Development Tools"
+    },
+    "codewars": {
+      "title": "🏆 Algorithmic Programming"
     }
   },
+  "achievements": {
+    "title": "Achievements",
+    "subtitle": "Diplomas & Awards",
+    "cta": "Active participant in case championships, hackathons, olympiads, and other IT events",
+    "download": "Download",
+    "view": "View"
+  },
   "projects": {
-    "title": "Projects",
-    "subtitle": "My GitHub repositories",
+    "title": "My Repositories",
+    "subtitle": "GitHub — for the soul",
+    "ndaNote": "Most of my work is under NDA or internal Sber projects — can't share the code. GitHub is more of a personal playground ✌️",
     "viewAll": "View All on GitHub",
     "viewRepo": "View Repository",
     "stars": "Stars",
@@ -80,7 +154,7 @@
   "contact": {
     "title": "Get in Touch",
     "subtitle": "Let's connect!",
-    "description": "Have a project in mind? Want to collaborate? Feel free to reach out!",
+    "description": "Looking for a teammate for a hackathon, case championship, or IT project? Got a collab idea? Reach out!",
     "links": {
       "github": "GitHub",
       "telegram": "Telegram",
@@ -92,6 +166,7 @@
     "copyright": "© 2026 SaltyFrappuccino. All rights reserved.",
     "madeWith": "Made with",
     "and": "and",
+    "poweredBy": "Powered by",
     "tagline": "Powered by caffeine and neon dreams"
   }
 }

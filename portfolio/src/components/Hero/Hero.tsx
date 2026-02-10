@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Github, Send, FileCode, ChevronUp } from 'lucide-react';
 import './Hero.css';
 
@@ -131,6 +131,7 @@ export default function Hero() {
   const { t } = useTranslation();
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const currentFile = CODE_FILES[selectedFileIndex];
 
@@ -162,15 +163,37 @@ export default function Hero() {
             {t('hero.greeting')}
           </motion.p>
 
-          <motion.h1
-            className="hero-name glitch"
-            data-text={t('hero.nickname')}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
+          <div 
+            className="hero-name-wrapper"
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+            style={{ position: 'relative', display: 'inline-block' }}
           >
-            {t('hero.nickname')}
-          </motion.h1>
+            <motion.h1
+              className="hero-name glitch"
+              data-text={t('hero.nickname')}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              style={{ marginBottom: 0 }}
+            >
+              {t('hero.nickname')}
+            </motion.h1>
+            
+            <AnimatePresence>
+              {showTooltip && (
+                <motion.div
+                  className="hero-tooltip"
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {t('hero.nameExplanation')}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           <motion.div
             className="hero-role-wrapper"
