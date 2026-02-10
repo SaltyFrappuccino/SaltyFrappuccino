@@ -6,7 +6,7 @@ interface JourneyBackgroundProps {
 
 export default function JourneyBackground({ isActive = true }: JourneyBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
   const starsRef = useRef<{ x: number; y: number; z: number; o: number }[]>([]);
 
   useEffect(() => {

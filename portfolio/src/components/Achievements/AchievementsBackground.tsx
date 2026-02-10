@@ -6,7 +6,7 @@ interface AchievementsBackgroundProps {
 
 export default function AchievementsBackground({ isActive = true }: AchievementsBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
   const particlesRef = useRef<{
     x: number;
     y: number;
