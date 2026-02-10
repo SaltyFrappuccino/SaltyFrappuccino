@@ -277,6 +277,7 @@ export default function Projects() {
                   transition={{ duration: 0.3, delay: index < PAGE_SIZE ? index * 0.05 : 0 }}
                   layout
                   onClick={() => setSelectedRepo(repo)}
+                  style={{ '--lang-color': LANGUAGE_COLORS[repo.language || ''] || '#00d4ff' } as React.CSSProperties}
                 >
                   <div className="project-header">
                     <h3 className="project-name">{repo.name}</h3>

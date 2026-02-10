@@ -243,8 +243,9 @@
 }
 
 .project-card:hover {
-  border-color: var(--accent-cyan);
-  box-shadow: 0 10px 30px -10px rgba(0, 212, 255, 0.15);
+  border-color: var(--lang-color, var(--accent-cyan));
+  box-shadow: 0 0 25px -5px var(--lang-color, var(--accent-cyan)),
+              0 10px 30px -10px rgba(0, 0, 0, 0.3);
   transform: translateY(-8px);
 }
 
@@ -264,7 +265,7 @@
 }
 
 .project-card:hover .project-name {
-  color: var(--accent-cyan);
+  color: var(--lang-color, var(--accent-cyan));
 }
 
 .project-link-icon {

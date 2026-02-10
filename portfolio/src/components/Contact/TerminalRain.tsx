@@ -18,9 +18,10 @@ const CHARS =
   '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン</>{} []()=+-*&%$#@!';
 const FONT_SIZE = 14;
 const COLUMN_WIDTH = FONT_SIZE + 4;
-const TRAIL_LENGTH = 25;
+const TRAIL_LENGTH = 12;
 const MOUSE_RADIUS = 100;
-const SPAWN_RATE = 0.012;
+const SPAWN_RATE = 0.008;
+const FRAME_INTERVAL = 1000 / 30; // 30fps cap
 
 const randomChar = () => CHARS[Math.floor(Math.random() * CHARS.length)];
 
@@ -29,6 +30,7 @@ export default function TerminalRain({ isActive = true }: { isActive?: boolean }
   const columnsRef = useRef<Column[]>([]);
   const animationRef = useRef<number | undefined>(undefined);
   const mouseRef = useRef<{ x: number; y: number }>({ x: -1000, y: -1000 });
+  const lastTimeRef = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -59,13 +61,14 @@ export default function TerminalRain({ isActive = true }: { isActive?: boolean }
       const count = Math.floor(canvas.width / COLUMN_WIDTH);
       columnsRef.current = Array.from({ length: count }, (_, i) => {
         const col: Column = { x: i * COLUMN_WIDTH, drops: [], speed: 0.5 + Math.random() * 1.5 };
-        const initialDrops = Math.floor(Math.random() * 5);
+        const initialDrops = Math.floor(Math.random() * 3);
         for (let j = 0; j < initialDrops; j++) {
+          const opacity = 0.3 + Math.random() * 0.4;
           col.drops.push({
             y: Math.random() * canvas.height,
             char: randomChar(),
-            opacity: 0.3 + Math.random() * 0.4,
-            fadeSpeed: 0.0001, // Almost no fade for initial static drops
+            opacity,
+            fadeSpeed: opacity / (canvas.height / col.speed),
             trail: [],
           });
         }
@@ -73,21 +76,29 @@ export default function TerminalRain({ isActive = true }: { isActive?: boolean }
       });
     };
 
-    const animate = () => {
+    const MAX_DROPS_PER_COL = 3;
+
+    const animate = (time: number) => {
+      animationRef.current = requestAnimationFrame(animate);
+
+      if (!isActive) return;
+
+      const delta = time - lastTimeRef.current;
+      if (delta < FRAME_INTERVAL) return;
+      lastTimeRef.current = time - (delta % FRAME_INTERVAL);
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.font = `${FONT_SIZE}px 'JetBrains Mono', monospace`;
       const mouse = mouseRef.current;
 
       columnsRef.current.forEach((col) => {
-        if (Math.random() < SPAWN_RATE) {
+        if (col.drops.length < MAX_DROPS_PER_COL && Math.random() < SPAWN_RATE) {
+          const opacity = 0.6 + Math.random() * 0.4;
           col.drops.push({
             y: -FONT_SIZE,
             char: randomChar(),
-            opacity: 0.6 + Math.random() * 0.4,
-            // Calculate fade speed so it lasts the full height:
-            // timeToBottom = height / speed
-            // fadeSpeed = opacity / timeToBottom
-            fadeSpeed: (0.6 + Math.random() * 0.4) / (canvas.height / col.speed) * 0.5, // 0.5 safety factor
+            opacity,
+            fadeSpeed: opacity / (canvas.height / col.speed),
             trail: [],
           });
         }
@@ -128,15 +139,13 @@ export default function TerminalRain({ isActive = true }: { isActive?: boolean }
           return drop.opacity > 0 && drop.y < canvas.height + FONT_SIZE;
         });
       });
-
-      animationRef.current = requestAnimationFrame(animate);
     };
 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
     
     if (isActive) {
-      animate();
+      animationRef.current = requestAnimationFrame(animate);
     }
 
     return () => {
