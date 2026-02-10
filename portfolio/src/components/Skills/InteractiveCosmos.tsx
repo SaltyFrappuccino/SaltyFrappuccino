@@ -76,7 +76,7 @@ export default function InteractiveCosmos() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
     window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('scroll', () => { resizeCanvas(); }); // Optional: Re-check rects on scroll
+    window.addEventListener('scroll', () => { resizeCanvas(); });
 
     let time = 0;
 

@@ -19,19 +19,16 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   ];
 
   useEffect(() => {
-    // Progress bar animation
     const progressInterval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
           clearInterval(progressInterval);
           return 100;
         }
-        // Random usage to simulate real loading variation
         return prev + Math.random() * 5;
       });
     }, 100);
 
-    // Text cycling
     const textInterval = setInterval(() => {
       setTextIndex(prev => {
         if (prev >= loadingTexts.length - 1) {
@@ -42,11 +39,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       });
     }, 800);
 
-    // Completion check
     if (progress >= 100) {
       setTimeout(() => {
         onComplete();
-      }, 500); // Slight delay at 100%
+      }, 500);
     }
 
     return () => {

@@ -22,7 +22,6 @@ export default function JourneyBackground({ isActive = true }: JourneyBackground
     const STAR_COUNT = 200; 
     const SPEED = 2; 
     
-    // Initialize stars if empty
     if (starsRef.current.length === 0) {
         for (let i = 0; i < STAR_COUNT; i++) {
             starsRef.current.push({
@@ -45,7 +44,6 @@ export default function JourneyBackground({ isActive = true }: JourneyBackground
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-        // Use cached rect
         mouseX = (e.clientX - canvasRect.left - width / 2) * 0.5;
         mouseY = (e.clientY - canvasRect.top - height / 2) * 0.5;
     };
@@ -58,32 +56,23 @@ export default function JourneyBackground({ isActive = true }: JourneyBackground
     
     const draw = (time: number) => {
       if (!isActive) {
-        // Just keep checking, or we can cancel entirely and restart in useEffect dependency change
-        // But for rAF loop, stopping it is better.
-        // We will handle stopping via useEffect dependency on isActive
-        return; 
+        return;
       }
 
       const deltaTime = time - lastTime;
       lastTime = time;
 
-      // Limit max delta time to prevent huge jumps
       const dt = Math.min(deltaTime, 50);
 
-      // Clear with trail effect - use slightly more transparency for less ghosting
-       ctx.fillStyle = 'rgba(10, 10, 18, 0.8)'; 
+       ctx.fillStyle = 'rgba(10, 10, 18, 0.8)';
        ctx.fillRect(0, 0, width, height);
-      // Or use clearRect for crisp non-trail (user asked for smoothness, sometimes trails look like lag)
-      // ctx.clearRect(0, 0, width, height); 
 
       const cx = width / 2;
       const cy = height / 2;
 
       starsRef.current.forEach((star) => {
-        // Move star closer - time based
-        star.z -= SPEED * (dt / 16); 
+        star.z -= SPEED * (dt / 16);
 
-        // Reset if passed viewer
         if (star.z <= 0) {
             star.x = (Math.random() - 0.5) * width;
             star.y = (Math.random() - 0.5) * height;
@@ -98,7 +87,6 @@ export default function JourneyBackground({ isActive = true }: JourneyBackground
         if (px >= 0 && px <= width && py >= 0 && py <= height) {
             const opacity = (1 - star.z / width);
             
-            // Simpler color logic
             const distRatio = Math.sqrt(Math.pow(px - cx, 2) + Math.pow(py - cy, 2)) / (width / 2);
             if (distRatio < 0.5) {
                 ctx.fillStyle = `rgba(0, 212, 255, ${opacity})`;

@@ -22,9 +22,6 @@ export default function Footer() {
             <Heart className="heart-icon" size={16} />
             <span>{t('footer.and')}</span>
             <Coffee className="coffee-icon" size={16} />
-            <span className="footer-separator">|</span>
-            <span>{t('footer.poweredBy')}</span>
-            <span className="antigravity-text">Antigravity</span>
           </div>
 
 

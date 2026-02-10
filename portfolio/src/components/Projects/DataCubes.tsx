@@ -20,20 +20,20 @@ interface Cube {
 }
 
 const COLORS = [
-  '#a855f7', // Purple
-  '#ec4899', // Pink
-  '#00d4ff', // Cyan
-  '#10b981', // Green
-  '#f59e0b', // Amber/Orange
-  '#6366f1', // Indigo
-  '#ef4444', // Red
+  '#a855f7',
+  '#ec4899',
+  '#00d4ff',
+  '#10b981',
+  '#f59e0b',
+  '#6366f1',
+  '#ef4444',
 ];
 const SYMBOLS = [
   '{ }', '< />', '[ ]', '( )', '0x', '//', 
   '!=', '=>', '&&', '||', '++', '::',
   'await', 'fn', 'import', 'return'
 ];
-const CUBE_COUNT = 40; // Doubled count
+const CUBE_COUNT = 40;
 const MOUSE_RADIUS = 150;
 const PERSPECTIVE = 500;
 const FADE_FRAMES = 120;
@@ -63,27 +63,20 @@ export default function DataCubes({ isActive = true }: { isActive?: boolean }) {
 
     const createCube = (initialSpawn = false): Cube => {
       const velocityY = 0.15 + Math.random() * 0.25;
-      // Ensure life is long enough to cross screen: height / velocity
-      // Add generous buffer (500) to ensure they go off-screen before dying
       const requiredLife = (canvas.height + 100) / velocityY;
-      const maxLife = requiredLife + Math.random() * 200; 
+      const maxLife = requiredLife + Math.random() * 200;
 
-      // Distribution logic: Keep center clear for cards
-      // 45% Left (0-25%), 45% Right (75-100%), 10% Center
       const zone = Math.random();
       let x;
       let opacityFactor = 1;
 
       if (zone < 0.45) {
-        // Left
         x = Math.random() * (canvas.width * 0.25);
       } else if (zone < 0.90) {
-        // Right
         x = canvas.width * 0.75 + Math.random() * (canvas.width * 0.25);
       } else {
-        // Center (Low probability + Low Opacity)
         x = canvas.width * 0.25 + Math.random() * (canvas.width * 0.5);
-        opacityFactor = 0.3; // Much fainter in the middle
+        opacityFactor = 0.3;
       }
 
       return {
@@ -216,14 +209,9 @@ export default function DataCubes({ isActive = true }: { isActive?: boolean }) {
         } else if (cube.life > fadeOutStart) {
           cube.opacity = ((cube.maxLife - cube.life) / FADE_FRAMES) * 0.7;
         } else {
-          // Re-check opacity factor for potentially fading in cubes
-          // (Requires storing opacityFactor in Cube if we want strict consistency, 
-          // but just capping max opacity based on current X is simpler)
-          
           let targetOpacity = 0.7;
-          // If in center zone, cap lower
           if (cube.x > canvas.width * 0.25 && cube.x < canvas.width * 0.75) {
-             targetOpacity = 0.2;
+            targetOpacity = 0.2;
           }
           
           cube.opacity = Math.min(cube.opacity + 0.01, targetOpacity);

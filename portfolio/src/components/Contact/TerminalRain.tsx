@@ -21,7 +21,7 @@ const COLUMN_WIDTH = FONT_SIZE + 4;
 const TRAIL_LENGTH = 12;
 const MOUSE_RADIUS = 100;
 const SPAWN_RATE = 0.008;
-const FRAME_INTERVAL = 1000 / 30; // 30fps cap
+const FRAME_INTERVAL = 1000 / 30;
 
 const randomChar = () => CHARS[Math.floor(Math.random() * CHARS.length)];
 

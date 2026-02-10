@@ -51,7 +51,6 @@ export default function Projects() {
 
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  // Separate ref/check for background performance (toggles continuously)
   const isBackgroundActive = useInView(ref, { margin: '100px 0px 100px 0px' });
 
   const [selectedRepo, setSelectedRepo] = useState<Repository | null>(null);

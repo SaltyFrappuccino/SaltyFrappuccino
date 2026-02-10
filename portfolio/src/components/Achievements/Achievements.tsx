@@ -23,14 +23,11 @@ function parseAchievement(filename: string, url: string): Achievement {
   const ext = filename.split('.').pop()?.toLowerCase() || '';
   const type: 'image' | 'pdf' = ext === 'pdf' ? 'pdf' : 'image';
 
-  // Clean up filename for display
-  let title = filename.replace(/\.[^.]+$/, ''); // remove extension
+  let title = filename.replace(/\.[^.]+$/, ''); 
   
-  // Extract year if present
   const yearMatch = title.match(/\b(20\d{2})\b/);
   const year = yearMatch ? yearMatch[1] : '';
 
-  // Clean up common patterns
   title = title
     .replace(/_/g, ' ')
     .replace(/\s+/g, ' ')
@@ -45,7 +42,6 @@ const achievements: Achievement[] = Object.entries(achievementFiles)
     return parseAchievement(filename, url);
   })
   .sort((a, b) => {
-    // Sort by year descending, then alphabetically
     if (a.year && b.year) return b.year.localeCompare(a.year);
     if (a.year) return -1;
     if (b.year) return 1;
@@ -66,19 +62,16 @@ export default function Achievements() {
   const isBackgroundActive = useInView(ref, { margin: '100px 0px 100px 0px' });
   const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
 
-  // Filter state
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageInputValue, setPageInputValue] = useState('1');
 
-  // Extract unique years
   const years = useMemo(() => {
     const uniqueYears = [...new Set(achievements.map(a => a.year).filter(Boolean))];
     return uniqueYears.sort((a, b) => b.localeCompare(a));
   }, []);
 
-  // Filtered achievements
   const filtered = useMemo(() => {
     return achievements.filter(item => {
       const matchesSearch = !searchQuery ||
@@ -88,7 +81,6 @@ export default function Achievements() {
     });
   }, [searchQuery, selectedYear]);
 
-  // Pagination
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
   const safePage = Math.min(currentPage, totalPages);
   const paginatedItems = filtered.slice(
@@ -96,7 +88,6 @@ export default function Achievements() {
     safePage * ITEMS_PER_PAGE
   );
 
-  // Reset page when filters change
   const handleSearchChange = (value: string) => {
     setSearchQuery(value);
     setCurrentPage(1);
@@ -164,7 +155,6 @@ export default function Achievements() {
           <p>{t('achievements.cta')}</p>
         </motion.div>
 
-        {/* Filters */}
         <motion.div
           className="achievements-filters"
           initial={{ opacity: 0, y: 20 }}
@@ -201,7 +191,6 @@ export default function Achievements() {
           </div>
         </motion.div>
 
-        {/* Grid */}
         <motion.div
           className="achievements-grid"
           key={`${searchQuery}-${selectedYear}-${safePage}`}
@@ -281,7 +270,6 @@ export default function Achievements() {
           )}
         </motion.div>
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <motion.div
             className="achievements-pagination"
@@ -321,7 +309,6 @@ export default function Achievements() {
         )}
       </div>
 
-      {/* Lightbox */}
       <AnimatePresence>
         {selectedItem && (
           <motion.div

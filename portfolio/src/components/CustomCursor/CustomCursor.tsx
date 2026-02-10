@@ -49,7 +49,7 @@ export default function CustomCursor() {
         style={{
             translateX: cursorX,
             translateY: cursorY,
-            x: 12, // center offset for dot (32px cursor / 2 - 4px dot / 2 = 14? no, 32/2=16 center. dot is 8px. 16-4=12)
+            x: 12,
             y: 12
         }}
        />

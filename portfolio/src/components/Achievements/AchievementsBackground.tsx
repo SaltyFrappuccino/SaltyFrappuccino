@@ -26,14 +26,12 @@ export default function AchievementsBackground({ isActive = true }: Achievements
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
 
-    // particle config
     const PARTICLE_COUNT = 80;
     
-    // colors moved inside or kept const outside
     const colors = [
-      'rgba(0, 212, 255, ', // Cyan
-      'rgba(168, 85, 247, ', // Purple
-      'rgba(255, 255, 255, ' // White
+      'rgba(0, 212, 255, ',
+      'rgba(168, 85, 247, ',
+      'rgba(255, 255, 255, '
     ];
 
     const resetParticle = (index: number, randomY = false) => {
@@ -48,7 +46,6 @@ export default function AchievementsBackground({ isActive = true }: Achievements
     };
 
     const initParticles = () => {
-      // Only init if empty (first run) or resize cleared it
       if (particlesRef.current.length === 0) {
         for (let i = 0; i < PARTICLE_COUNT; i++) {
           resetParticle(i, true);
@@ -59,9 +56,6 @@ export default function AchievementsBackground({ isActive = true }: Achievements
     const handleResize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-      // Re-init positions if needed, or just let them flow. 
-      // Usually better to re-distribute if width changes drastically, 
-      // but strictly preserving is also fine. Let's just re-init to strictly match bounds.
       particlesRef.current = []; 
       initParticles();
     };
@@ -72,19 +66,15 @@ export default function AchievementsBackground({ isActive = true }: Achievements
     const draw = () => {
       if (!isActive) return;
 
-      // Clear canvas
       ctx.clearRect(0, 0, width, height);
 
       particlesRef.current.forEach((p, i) => {
-        // Move up
         p.y -= p.speed;
 
-        // Reset if off screen
         if (p.y < -10) {
           resetParticle(i);
         }
 
-        // Draw square (data bit)
         ctx.fillStyle = p.color + p.opacity + ')';
         ctx.fillRect(p.x, p.y, p.size, p.size);
       });

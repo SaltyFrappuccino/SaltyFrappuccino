@@ -3,19 +3,19 @@ import { useTranslation } from 'react-i18next';
 import { motion, useMotionValue, useTransform, MotionValue } from 'framer-motion';
 import { Code2, Brain, Bot } from 'lucide-react';
 
-const TRIANGLE_SIZE = 280; // Size of the triangle (px)
+const TRIANGLE_SIZE = 280;
 
-// Initial triangle positions
 const initialNodes = [
-  { key: 'experience', icon: Code2, x: 0, y: -TRIANGLE_SIZE / 1.7, value: '3+' }, // Top
-  { key: 'technologies', icon: Brain, x: -TRIANGLE_SIZE / 1.7, y: TRIANGLE_SIZE / 3, value: '30+' }, // Bottom Left
-  { key: 'agents', icon: Bot, x: TRIANGLE_SIZE / 1.7, y: TRIANGLE_SIZE / 3, value: '4' }, // Bottom Right
+  { key: 'experience', icon: Code2, x: 0, y: -TRIANGLE_SIZE / 1.7, value: '3+' },
+  { key: 'technologies', icon: Brain, x: -TRIANGLE_SIZE / 1.7, y: TRIANGLE_SIZE / 3, value: '30+' },
+  { key: 'agents', icon: Bot, x: TRIANGLE_SIZE / 1.7, y: TRIANGLE_SIZE / 3, value: '4' },
 ];
 
 export default function ConnectedStats() {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Initialize motion values inside the component
+
+
   const node1X = useMotionValue(initialNodes[0].x);
   const node1Y = useMotionValue(initialNodes[0].y);
   
@@ -34,7 +34,6 @@ export default function ConnectedStats() {
   return (
     <div className="connected-stats-container" ref={containerRef}>
       <svg className="stats-connections">
-        {/* Lines connecting nodes */}
         <ConnectionLine x1={positions[0].x} y1={positions[0].y} x2={positions[1].x} y2={positions[1].y} />
         <ConnectionLine x1={positions[1].x} y1={positions[1].y} x2={positions[2].x} y2={positions[2].y} />
         <ConnectionLine x1={positions[2].x} y1={positions[2].y} x2={positions[0].x} y2={positions[0].y} />

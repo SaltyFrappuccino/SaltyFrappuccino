@@ -135,14 +135,13 @@ export default function Hero() {
 
   const currentFile = CODE_FILES[selectedFileIndex];
 
-  // Drag constraints
   const DRAG_LIMITS = { left: -200, right: 200, top: -100, bottom: 100 };
-  const COLLISION_THRESHOLD = 30; // px distance to start showing warning
+  const COLLISION_THRESHOLD = 30;
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // Transform color based on proximity to limits
+
   const borderColor = useTransform(
     [x, y],
     ([latestX, latestY]: unknown[]) => {
@@ -154,9 +153,9 @@ export default function Hero() {
       const isNearBottom = ly >= DRAG_LIMITS.bottom - COLLISION_THRESHOLD;
 
       if (isNearLeft || isNearRight || isNearTop || isNearBottom) {
-        return 'rgba(255, 59, 48, 0.8)'; // Warning Red
+        return 'rgba(255, 59, 48, 0.8)';
       }
-      return 'rgba(168, 85, 247, 0.3)'; // Default Purple
+      return 'rgba(168, 85, 247, 0.3)';
     }
   );
 

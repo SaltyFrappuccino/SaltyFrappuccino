@@ -66,11 +66,11 @@ const skillCategories = {
 } as const;
 
 const categoryColors: Record<keyof typeof skillCategories, string> = {
-  languages: '#3b82f6', // Brighter Blue
-  backend: '#10b981',   // Brighter Green
+  languages: '#3b82f6',
+  backend: '#10b981',
   frontend: '#61DAFB',
   ai: '#FF6F00',
-  devops: '#ef4444',    // More Red
+  devops: '#ef4444',
   tools: '#a855f7',
 };
 
@@ -105,7 +105,6 @@ export default function Skills() {
           <h2 className="section-title neon-text">{t('skills.title')}</h2>
         </motion.div>
 
-        {/* CodeWars Badge */}
         <motion.div
           className="codewars-section"
           initial={{ opacity: 0, y: 20 }}

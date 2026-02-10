@@ -6,7 +6,7 @@ import FlyingParticles from './FlyingParticles';
 import ConnectedStats from './ConnectedStats';
 import './About.css';
 
-// stats removed in favor of ConnectedStats
+
 
 
 const focusItems = [
@@ -62,7 +62,6 @@ export default function About() {
           >
             <p className="about-description">{t('about.description')}</p>
 
-            {/* AI Philosophy */}
             <motion.div
               className="philosophy-block"
               initial={{ opacity: 0, y: 20 }}
@@ -75,7 +74,6 @@ export default function About() {
               </blockquote>
             </motion.div>
 
-            {/* Focus */}
             <div className="about-focus">
               <h3>{t('about.focus.title')}</h3>
               <motion.div
@@ -97,10 +95,9 @@ export default function About() {
                 ))}
               </motion.div>
             </div>
-          </motion.div> {/* Closing about-text here */}
+          </motion.div>
 
-          <div className="about-right"> {/* Moved about-right to be a sibling of about-text */}
-            {/* Connected Stats (Interactive Triangle) */}
+          <div className="about-right">
             <motion.div
               className="about-stats-wrapper"
               variants={containerVariants}
@@ -111,7 +108,6 @@ export default function About() {
             </motion.div>
 
 
-            {/* Dev Tools */}
             <motion.div
               className="devtools-section"
               initial={{ opacity: 0, y: 30 }}
