@@ -121,7 +121,14 @@
     "subtitle": "Diplomas & Awards",
     "cta": "Active participant in case championships, hackathons, olympiads, and other IT events",
     "download": "Download",
-    "view": "View"
+    "view": "View",
+    "search": "Search achievements...",
+    "allYears": "All Years",
+    "page": "Page",
+    "of": "of",
+    "noResults": "No achievements found",
+    "found": "Found",
+    "items": "items"
   },
   "projects": {
     "title": "My Repositories",
