@@ -77,7 +77,9 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  scroll-snap-type: y proximity;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 body {
@@ -107,20 +109,9 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple));
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--accent-purple), var(--accent-pink));
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 /* ==========================================
@@ -180,7 +171,8 @@ a {
   flex-direction: column;
   justify-content: center;
   scroll-snap-align: start;
-  scroll-snap-stop: normal;
+  scroll-snap-stop: always;
+  overflow: hidden;
 }
 
 .section-header {
@@ -395,24 +387,346 @@ a {
 }
 
 /* ==========================================
-   Chill Mode
+   Chill Mode – Liquid Glass / Minimalistic
    ========================================== */
 
 body.chill-mode {
-  --accent-cyan: #64748b;
-  --accent-purple: #6b7280;
-  --accent-pink: #78716c;
-  --gradient-primary: linear-gradient(135deg, #64748b, #6b7280);
-  --bg-primary: #111827;
-  --bg-secondary: #1f2937;
+  /* Softer, muted palette */
+  --accent-cyan: #94a3b8;
+  --accent-purple: #a1a1aa;
+  --accent-pink: #d4d4d8;
+  --gradient-primary: linear-gradient(135deg, rgba(148, 163, 184, 0.5), rgba(161, 161, 170, 0.5));
+  --bg-primary: #0f1117;
+  --bg-secondary: #161923;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-medium: rgba(255, 255, 255, 0.1);
   --glow-cyan: none;
   --glow-purple: none;
   --glow-pink: none;
+  --shadow-glow: none;
+  --text-primary: rgba(255, 255, 255, 0.9);
+  --text-secondary: rgba(255, 255, 255, 0.5);
+  --text-muted: rgba(255, 255, 255, 0.3);
 }
 
+/* Disable all glitch effects */
 body.chill-mode .glitch::before,
 body.chill-mode .glitch::after {
   display: none;
+}
+
+/* Neon text → clean solid */
+body.chill-mode .neon-text {
+  background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(200,200,210,0.7));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Section subtitle → muted */
+body.chill-mode .section-subtitle {
+  color: rgba(255, 255, 255, 0.35);
+  text-shadow: none;
+}
+
+/* Glass cards */
+body.chill-mode .card,
+body.chill-mode .stat-card,
+body.chill-mode .skill-category,
+body.chill-mode .contact-card,
+body.chill-mode .focus-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+body.chill-mode .card:hover,
+body.chill-mode .stat-card:hover,
+body.chill-mode .contact-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+}
+
+body.chill-mode .card::before {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+}
+
+/* Buttons → frosted glass */
+body.chill-mode .btn-primary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+body.chill-mode .btn-primary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+body.chill-mode .btn-primary::before {
+  display: none;
+}
+
+body.chill-mode .btn-secondary {
+  border-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+body.chill-mode .btn-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+}
+
+/* Tags → muted glass */
+body.chill-mode .skill-tag {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+body.chill-mode .skill-tag:hover {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ==========================================
+   Hide SynthWave-specific effects in chill
+   ========================================== */
+
+/* Hide Hero synthwave grid + sun + orbs */
+body.chill-mode .synthwave-grid,
+body.chill-mode .synthwave-sun,
+body.chill-mode .hero-orb {
+  display: none !important;
+}
+
+/* Hide all Canvas backgrounds */
+body.chill-mode .flying-particles-canvas,
+body.chill-mode .interactive-cosmos-canvas,
+body.chill-mode .data-cubes-canvas,
+body.chill-mode .terminal-rain-canvas,
+body.chill-mode .particle-canvas {
+  display: none !important;
+}
+
+/* Hide background decorations */
+body.chill-mode .skills-bg,
+body.chill-mode .about-decoration,
+body.chill-mode .contact-bg {
+  display: none !important;
+}
+
+/* ==========================================
+   Liquid Glass Section Backgrounds
+   ========================================== */
+
+/* Hero → clean minimal */
+body.chill-mode .hero {
+  background: linear-gradient(180deg, #0f1117 0%, #141720 50%, #0f1117 100%);
+}
+
+body.chill-mode .hero-greeting {
+  color: rgba(255, 255, 255, 0.4);
+  text-shadow: none;
+}
+
+body.chill-mode .hero-name {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(180,180,195,0.7));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: none;
+}
+
+body.chill-mode .hero-role-prefix {
+  color: rgba(255, 255, 255, 0.35);
+  text-shadow: none;
+}
+
+body.chill-mode .cursor {
+  color: rgba(255, 255, 255, 0.5);
+  text-shadow: none;
+}
+
+/* Code window → frosted glass */
+body.chill-mode .code-window {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+body.chill-mode .code-window:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+body.chill-mode .code-window-header {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+body.chill-mode .code-dot {
+  opacity: 0.4;
+  box-shadow: none;
+}
+
+body.chill-mode .file-dropdown-trigger {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+body.chill-mode .file-dropdown-trigger:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+body.chill-mode .file-dropdown-menu {
+  background: rgba(15, 17, 23, 0.98);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+body.chill-mode .file-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+body.chill-mode .file-dropdown-item.active {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* About → clean dark */
+body.chill-mode .about {
+  background: linear-gradient(180deg, #111319 0%, #0f1117 100%);
+}
+
+body.chill-mode .about::before,
+body.chill-mode .about::after {
+  display: none;
+}
+
+/* Skills → clean dark */
+body.chill-mode .skills {
+  background: linear-gradient(180deg, #0f1117 0%, #111319 100%);
+}
+
+body.chill-mode .category-title {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Projects → clean dark */
+body.chill-mode .projects {
+  background: linear-gradient(180deg, #111319 0%, #0f1117 100%);
+}
+
+body.chill-mode .projects::before,
+body.chill-mode .projects::after {
+  display: none;
+}
+
+/* Contact → clean dark */
+body.chill-mode .contact {
+  background: linear-gradient(180deg, #0f1117 0%, #111319 100%);
+}
+
+body.chill-mode .contact::before,
+body.chill-mode .contact::after {
+  display: none;
+}
+
+body.chill-mode .contact-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+body.chill-mode .contact-card::before {
+  opacity: 0.3;
+}
+
+/* Header → glass */
+body.chill-mode .header.scrolled {
+  background: rgba(15, 17, 23, 0.8);
+  border-bottom-color: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+}
+
+body.chill-mode .nav-link:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+body.chill-mode .nav-link-underline {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Footer → subtle */
+body.chill-mode .footer {
+  background: rgba(10, 10, 15, 0.9);
+  border-top-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Scroll indicator */
+body.chill-mode .scroll-indicator {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+body.chill-mode .scroll-arrow {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Project controls */
+body.chill-mode .search-input,
+body.chill-mode .filter-btn,
+body.chill-mode .sort-select {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+body.chill-mode .project-card {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+body.chill-mode .project-card:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Stat icons → muted */
+body.chill-mode .stat-icon {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+body.chill-mode .stat-value {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+body.chill-mode .stat-label {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ChillMode toggle button in chill state */
+body.chill-mode .chill-toggle {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+body.chill-mode .chill-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Smooth transition for everything */
+body.chill-mode *,
+body.chill-mode *::before,
+body.chill-mode *::after {
+  transition-duration: 0.5s !important;
 }
 
 /* ==========================================

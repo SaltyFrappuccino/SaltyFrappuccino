@@ -1,35 +1,25 @@
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { Github, Send, Mail, Copy, Check } from 'lucide-react';
-import { useState } from 'react';
 import TerminalRain from './TerminalRain';
 import './Contact.css';
 
 const contacts = [
-  {
-    id: 'github',
-    icon: Github,
-    url: 'https://github.com/SaltyFrappuccino',
-    value: 'SaltyFrappuccino',
-    color: '#ffffff',
-  },
-  {
-    id: 'telegram',
-    icon: Send,
-    url: 'https://t.me/SaltyFrappuccino',
-    value: '@SaltyFrappuccino',
-    color: '#0088cc',
-  },
-  {
-    id: 'email',
-    icon: Mail,
-    url: 'mailto:saltyfrappuccino@internet.ru',
-    value: 'saltyfrappuccino@internet.ru',
-    color: '#ff6b35',
-  },
-];
+  { id: 'github', icon: Github, url: 'https://github.com/SaltyFrappuccino', value: 'SaltyFrappuccino', color: '#ffffff' },
+  { id: 'telegram', icon: Send, url: 'https://t.me/SaltyFrappuccino', value: '@SaltyFrappuccino', color: '#0088cc' },
+  { id: 'email', icon: Mail, url: 'mailto:saltyfrappuccino@internet.ru', value: 'saltyfrappuccino@internet.ru', color: '#ff6b35' },
+] as const;
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
 
 export default function Contact() {
   const { t } = useTranslation();
@@ -43,22 +33,8 @@ export default function Contact() {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0 },
-  };
-
   return (
     <section id="contact" className="contact section" ref={ref}>
-      {/* Terminal Rain Background */}
       <TerminalRain />
 
       <div className="container">
@@ -107,9 +83,7 @@ export default function Contact() {
                     <Icon size={28} />
                   </div>
                   <div className="contact-info">
-                    <span className="contact-label">
-                      {t(`contact.links.${contact.id}`)}
-                    </span>
+                    <span className="contact-label">{t(`contact.links.${contact.id}`)}</span>
                     <span className="contact-value">{contact.value}</span>
                   </div>
                 </a>
@@ -123,11 +97,7 @@ export default function Contact() {
                   whileTap={{ scale: 0.9 }}
                   title="Copy"
                 >
-                  {copied === contact.id ? (
-                    <Check size={16} className="copied" />
-                  ) : (
-                    <Copy size={16} />
-                  )}
+                  {copied === contact.id ? <Check size={16} className="copied" /> : <Copy size={16} />}
                 </motion.button>
               </motion.div>
             );
@@ -135,7 +105,6 @@ export default function Contact() {
         </motion.div>
       </div>
 
-      {/* Background decoration */}
       <div className="contact-bg">
         <div className="contact-glow" />
       </div>

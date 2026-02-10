@@ -4,8 +4,7 @@ import { motion } from 'framer-motion';
 import { ChevronDown, Github, Send, FileCode, ChevronUp } from 'lucide-react';
 import './Hero.css';
 
-// Code snippets in different languages
-const codeFiles = [
+const CODE_FILES = [
   {
     name: 'developer.ts',
     language: 'TypeScript',
@@ -26,7 +25,7 @@ const codeFiles = [
   getDrink(): string {
     return "☕ Frappuccino";
   }
-};`
+};`,
   },
   {
     name: 'developer.py',
@@ -47,7 +46,7 @@ const codeFiles = [
 }
 
 def get_drink() -> str:
-    return "☕ Frappuccino"`
+    return "☕ Frappuccino"`,
   },
   {
     name: 'developer.go',
@@ -74,7 +73,7 @@ var developer = Developer{
 
 func GetDrink() string {
     return "☕ Frappuccino"
-}`
+}`,
   },
   {
     name: 'Developer.java',
@@ -94,7 +93,7 @@ func GetDrink() string {
     String getDrink() {
         return "☕ Frappuccino";
     }
-}`
+}`,
   },
   {
     name: 'developer.rs',
@@ -121,31 +120,25 @@ const DEVELOPER: Developer = Developer {
 
 fn get_drink() -> &'static str {
     "☕ Frappuccino"
-}`
-  }
-];
+}`,
+  },
+] as const;
+
+const scrollTo = (id: string) =>
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
 export default function Hero() {
   const { t } = useTranslation();
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const scrollToProjects = () => {
-    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const currentFile = codeFiles[selectedFileIndex];
+  const currentFile = CODE_FILES[selectedFileIndex];
 
   return (
     <section id="home" className="hero">
-      {/* Synthwave Grid Background */}
       <div className="hero-bg">
         <div className="synthwave-grid">
-          <div className="grid-lines"></div>
+          <div className="grid-lines" />
         </div>
         <div className="hero-orb hero-orb-1" />
         <div className="hero-orb hero-orb-2" />
@@ -207,7 +200,7 @@ export default function Hero() {
           >
             <motion.button
               className="btn btn-primary"
-              onClick={scrollToProjects}
+              onClick={() => scrollTo('projects')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -216,7 +209,7 @@ export default function Hero() {
             </motion.button>
             <motion.button
               className="btn btn-secondary"
-              onClick={scrollToContact}
+              onClick={() => scrollTo('contact')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -226,7 +219,6 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Draggable Code Window with Language Dropdown */}
         <motion.div
           className="hero-decoration"
           initial={{ opacity: 0, x: 50 }}
@@ -234,7 +226,9 @@ export default function Hero() {
           transition={{ delay: 0.6, duration: 0.8 }}
           drag
           dragConstraints={{ left: -200, right: 200, top: -100, bottom: 100 }}
-          dragElastic={0.1}
+          dragElastic={0.15}
+          dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
+          dragMomentum
           whileDrag={{ scale: 1.02, cursor: 'grabbing' }}
           style={{ cursor: 'grab' }}
         >
@@ -243,10 +237,9 @@ export default function Hero() {
               <span className="code-dot red" />
               <span className="code-dot yellow" />
               <span className="code-dot green" />
-              
-              {/* Language Dropdown */}
+
               <div className="file-dropdown">
-                <button 
+                <button
                   className="file-dropdown-trigger"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -257,15 +250,15 @@ export default function Hero() {
                   <span>{currentFile.name}</span>
                   {isDropdownOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                 </button>
-                
+
                 {isDropdownOpen && (
-                  <motion.div 
+                  <motion.div
                     className="file-dropdown-menu"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                   >
-                    {codeFiles.map((file, index) => (
+                    {CODE_FILES.map((file, index) => (
                       <button
                         key={file.name}
                         className={`file-dropdown-item ${index === selectedFileIndex ? 'active' : ''}`}
@@ -285,9 +278,7 @@ export default function Hero() {
               </div>
             </div>
             <div className="code-content">
-              <pre key={selectedFileIndex}>
-                {currentFile.code}
-              </pre>
+              <pre key={selectedFileIndex}>{currentFile.code}</pre>
             </div>
             <div className="drag-hint">
               <span>⋮⋮ drag me</span>
@@ -301,7 +292,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+        onClick={() => scrollTo('about')}
       >
         <span>{t('hero.scroll')}</span>
         <ChevronDown className="scroll-arrow" />

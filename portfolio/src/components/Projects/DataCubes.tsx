@@ -14,15 +14,23 @@ interface Cube {
   velocityY: number;
   color: string;
   symbol: string;
+  opacity: number;
+  life: number;
+  maxLife: number;
 }
 
-const colors = ['#a855f7', '#ec4899', '#00d4ff', '#10b981'];
-const symbols = ['{ }', '< />', '[ ]', '( )', '0x', '//'];
+const COLORS = ['#a855f7', '#ec4899', '#00d4ff', '#10b981'];
+const SYMBOLS = ['{ }', '< />', '[ ]', '( )', '0x', '//'];
+const CUBE_COUNT = 12;
+const MOUSE_RADIUS = 150;
+const PERSPECTIVE = 500;
+const FADE_FRAMES = 120;
 
 export default function DataCubes() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cubesRef = useRef<Cube[]>([]);
   const animationRef = useRef<number | undefined>(undefined);
+  const mouseRef = useRef<{ x: number; y: number }>({ x: -1000, y: -1000 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -31,28 +39,21 @@ export default function DataCubes() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const resizeCanvas = () => {
-      const parent = canvas.parentElement;
-      if (parent) {
-        canvas.width = parent.offsetWidth;
-        canvas.height = parent.offsetHeight;
-        initCubes();
-      }
+    const onMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
     };
-
-    const initCubes = () => {
-      const cubeCount = 12;
-      cubesRef.current = [];
-
-      for (let i = 0; i < cubeCount; i++) {
-        cubesRef.current.push(createCube(canvas));
-      }
+    const onMouseLeave = () => {
+      mouseRef.current = { x: -1000, y: -1000 };
     };
+    canvas.addEventListener('mousemove', onMouseMove);
+    canvas.addEventListener('mouseleave', onMouseLeave);
 
-    const createCube = (canvas: HTMLCanvasElement): Cube => {
+    const createCube = (initialSpawn = false): Cube => {
+      const maxLife = 600 + Math.random() * 800;
       return {
         x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
+        y: initialSpawn ? Math.random() * canvas.height : canvas.height + 50,
         z: 100 + Math.random() * 300,
         size: 30 + Math.random() * 40,
         rotationX: Math.random() * Math.PI * 2,
@@ -61,15 +62,25 @@ export default function DataCubes() {
         rotationSpeedX: (Math.random() - 0.5) * 0.02,
         rotationSpeedY: (Math.random() - 0.5) * 0.02,
         rotationSpeedZ: (Math.random() - 0.5) * 0.01,
-        velocityY: 0.2 + Math.random() * 0.3,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        symbol: symbols[Math.floor(Math.random() * symbols.length)],
+        velocityY: 0.15 + Math.random() * 0.25,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        symbol: SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)],
+        opacity: initialSpawn ? 0.3 + Math.random() * 0.5 : 0,
+        life: initialSpawn ? maxLife * 0.3 + Math.random() * maxLife * 0.5 : 0,
+        maxLife,
       };
     };
 
-    const project3D = (x: number, y: number, z: number, canvas: HTMLCanvasElement) => {
-      const perspective = 500;
-      const scale = perspective / (perspective + z);
+    const resizeCanvas = () => {
+      const parent = canvas.parentElement;
+      if (!parent) return;
+      canvas.width = parent.offsetWidth;
+      canvas.height = parent.offsetHeight;
+      cubesRef.current = Array.from({ length: CUBE_COUNT }, () => createCube(true));
+    };
+
+    const project = (x: number, y: number, z: number) => {
+      const scale = PERSPECTIVE / (PERSPECTIVE + z);
       return {
         x: canvas.width / 2 + (x - canvas.width / 2) * scale,
         y: canvas.height / 2 + (y - canvas.height / 2) * scale,
@@ -77,73 +88,63 @@ export default function DataCubes() {
       };
     };
 
+    const EDGES: [number, number][] = [
+      [0, 1], [1, 2], [2, 3], [3, 0],
+      [4, 5], [5, 6], [6, 7], [7, 4],
+      [0, 4], [1, 5], [2, 6], [3, 7],
+    ];
+
     const drawCube = (cube: Cube) => {
-      const halfSize = cube.size / 2;
-      
-      // Cube vertices
-      const vertices = [
-        { x: -halfSize, y: -halfSize, z: -halfSize },
-        { x: halfSize, y: -halfSize, z: -halfSize },
-        { x: halfSize, y: halfSize, z: -halfSize },
-        { x: -halfSize, y: halfSize, z: -halfSize },
-        { x: -halfSize, y: -halfSize, z: halfSize },
-        { x: halfSize, y: -halfSize, z: halfSize },
-        { x: halfSize, y: halfSize, z: halfSize },
-        { x: -halfSize, y: halfSize, z: halfSize },
+      if (cube.opacity <= 0.01) return;
+
+      const h = cube.size / 2;
+      const raw = [
+        { x: -h, y: -h, z: -h }, { x: h, y: -h, z: -h },
+        { x: h, y: h, z: -h }, { x: -h, y: h, z: -h },
+        { x: -h, y: -h, z: h }, { x: h, y: -h, z: h },
+        { x: h, y: h, z: h }, { x: -h, y: h, z: h },
       ];
 
-      // Rotate vertices
-      const rotatedVertices = vertices.map(v => {
-        // Rotate X
-        let y = v.y * Math.cos(cube.rotationX) - v.z * Math.sin(cube.rotationX);
-        let z = v.y * Math.sin(cube.rotationX) + v.z * Math.cos(cube.rotationX);
-        v.y = y;
-        v.z = z;
+      const rotated = raw.map((v) => {
+        let { x, y, z } = v;
+        let tmp: number;
 
-        // Rotate Y
-        let x = v.x * Math.cos(cube.rotationY) + v.z * Math.sin(cube.rotationY);
-        z = -v.x * Math.sin(cube.rotationY) + v.z * Math.cos(cube.rotationY);
-        v.x = x;
-        v.z = z;
+        tmp = y * Math.cos(cube.rotationX) - z * Math.sin(cube.rotationX);
+        z = y * Math.sin(cube.rotationX) + z * Math.cos(cube.rotationX);
+        y = tmp;
 
-        // Rotate Z
-        x = v.x * Math.cos(cube.rotationZ) - v.y * Math.sin(cube.rotationZ);
-        y = v.x * Math.sin(cube.rotationZ) + v.y * Math.cos(cube.rotationZ);
-        v.x = x;
-        v.y = y;
+        tmp = x * Math.cos(cube.rotationY) + z * Math.sin(cube.rotationY);
+        z = -x * Math.sin(cube.rotationY) + z * Math.cos(cube.rotationY);
+        x = tmp;
 
-        return v;
+        tmp = x * Math.cos(cube.rotationZ) - y * Math.sin(cube.rotationZ);
+        y = x * Math.sin(cube.rotationZ) + y * Math.cos(cube.rotationZ);
+        x = tmp;
+
+        return { x, y, z };
       });
 
-      // Project vertices
-      const projectedVertices = rotatedVertices.map(v => 
-        project3D(cube.x + v.x, cube.y + v.y, cube.z + v.z, canvas)
+      const projected = rotated.map((v) =>
+        project(cube.x + v.x, cube.y + v.y, cube.z + v.z),
       );
 
-      // Draw edges with glow
-      const edges = [
-        [0, 1], [1, 2], [2, 3], [3, 0], // Front face
-        [4, 5], [5, 6], [6, 7], [7, 4], // Back face
-        [0, 4], [1, 5], [2, 6], [3, 7], // Connecting edges
-      ];
-
+      const alpha = Math.floor(cube.opacity * 128).toString(16).padStart(2, '0');
       ctx.shadowColor = cube.color;
-      ctx.shadowBlur = 10;
-      ctx.strokeStyle = cube.color + '80';
-      ctx.lineWidth = 1.5 * projectedVertices[0].scale;
+      ctx.shadowBlur = 8 * cube.opacity;
+      ctx.strokeStyle = cube.color + alpha;
+      ctx.lineWidth = 1.5 * projected[0].scale;
 
-      edges.forEach(([start, end]) => {
+      for (const [s, e] of EDGES) {
         ctx.beginPath();
-        ctx.moveTo(projectedVertices[start].x, projectedVertices[start].y);
-        ctx.lineTo(projectedVertices[end].x, projectedVertices[end].y);
+        ctx.moveTo(projected[s].x, projected[s].y);
+        ctx.lineTo(projected[e].x, projected[e].y);
         ctx.stroke();
-      });
+      }
 
-      // Draw symbol in center
-      const center = project3D(cube.x, cube.y, cube.z, canvas);
+      const center = project(cube.x, cube.y, cube.z);
       ctx.shadowBlur = 0;
       ctx.font = `${12 * center.scale}px 'JetBrains Mono', monospace`;
-      ctx.fillStyle = cube.color;
+      ctx.fillStyle = cube.color + alpha;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(cube.symbol, center.x, center.y);
@@ -151,26 +152,40 @@ export default function DataCubes() {
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Sort cubes by z for proper depth ordering
       cubesRef.current.sort((a, b) => b.z - a.z);
+      const mouse = mouseRef.current;
 
-      cubesRef.current.forEach((cube, index) => {
-        // Update rotation
+      cubesRef.current.forEach((cube, i) => {
         cube.rotationX += cube.rotationSpeedX;
         cube.rotationY += cube.rotationSpeedY;
         cube.rotationZ += cube.rotationSpeedZ;
-
-        // Float upward
         cube.y -= cube.velocityY;
-
-        // Gentle horizontal drift
         cube.x += Math.sin(cube.y * 0.01) * 0.3;
 
-        // Reset when off screen
-        if (cube.y < -cube.size * 2) {
-          cubesRef.current[index] = createCube(canvas);
-          cubesRef.current[index].y = canvas.height + cube.size;
+        const dx = cube.x - mouse.x;
+        const dy = cube.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < MOUSE_RADIUS) {
+          const force = ((MOUSE_RADIUS - dist) / MOUSE_RADIUS) * 2;
+          cube.x += (dx / dist) * force;
+          cube.y += (dy / dist) * force;
+          cube.rotationSpeedX *= 1.01;
+          cube.rotationSpeedY *= 1.01;
+        }
+
+        cube.life++;
+        const fadeOutStart = cube.maxLife - FADE_FRAMES;
+
+        if (cube.life < FADE_FRAMES) {
+          cube.opacity = (cube.life / FADE_FRAMES) * 0.7;
+        } else if (cube.life > fadeOutStart) {
+          cube.opacity = ((cube.maxLife - cube.life) / FADE_FRAMES) * 0.7;
+        } else {
+          cube.opacity = Math.min(cube.opacity + 0.01, 0.7);
+        }
+
+        if (cube.life >= cube.maxLife || cube.y < -cube.size * 3) {
+          cubesRef.current[i] = createCube();
         }
 
         drawCube(cube);
@@ -185,9 +200,9 @@ export default function DataCubes() {
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      canvas.removeEventListener('mousemove', onMouseMove);
+      canvas.removeEventListener('mouseleave', onMouseLeave);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
   }, []);
 
@@ -201,7 +216,6 @@ export default function DataCubes() {
         left: 0,
         width: '100%',
         height: '100%',
-        pointerEvents: 'none',
         zIndex: 0,
       }}
     />

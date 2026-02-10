@@ -7,7 +7,7 @@ interface Star {
   color: string;
   twinkleSpeed: number;
   twinkleOffset: number;
-  depth: number; // for parallax
+  depth: number;
 }
 
 interface Nebula {
@@ -18,7 +18,10 @@ interface Nebula {
   opacity: number;
 }
 
-const starColors = ['#ffffff', '#00d4ff', '#a855f7', '#ec4899', '#ffd700'];
+const STAR_COLORS = ['#ffffff', '#00d4ff', '#a855f7', '#ec4899', '#ffd700'];
+const STAR_COUNT = 150;
+const PARALLAX_STAR = 30;
+const PARALLAX_NEBULA = 15;
 
 export default function InteractiveCosmos() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -34,59 +37,35 @@ export default function InteractiveCosmos() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const toHex = (value: number) => Math.floor(value * 255).toString(16).padStart(2, '0');
+
     const resizeCanvas = () => {
       const parent = canvas.parentElement;
-      if (parent) {
-        canvas.width = parent.offsetWidth;
-        canvas.height = parent.offsetHeight;
-        initCosmos();
-      }
+      if (!parent) return;
+      canvas.width = parent.offsetWidth;
+      canvas.height = parent.offsetHeight;
+      initCosmos();
     };
 
     const initCosmos = () => {
-      // Create stars
-      const starCount = 150;
-      starsRef.current = [];
-      
-      for (let i = 0; i < starCount; i++) {
-        starsRef.current.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          size: 0.5 + Math.random() * 2,
-          color: starColors[Math.floor(Math.random() * starColors.length)],
-          twinkleSpeed: 0.01 + Math.random() * 0.03,
-          twinkleOffset: Math.random() * Math.PI * 2,
-          depth: 0.3 + Math.random() * 0.7, // depth for parallax effect
-        });
-      }
+      starsRef.current = Array.from({ length: STAR_COUNT }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: 0.5 + Math.random() * 2,
+        color: STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)],
+        twinkleSpeed: 0.01 + Math.random() * 0.03,
+        twinkleOffset: Math.random() * Math.PI * 2,
+        depth: 0.3 + Math.random() * 0.7,
+      }));
 
-      // Create nebulae
       nebulaeRef.current = [
-        {
-          x: canvas.width * 0.3,
-          y: canvas.height * 0.3,
-          radius: 200,
-          color: '#a855f7',
-          opacity: 0.05,
-        },
-        {
-          x: canvas.width * 0.7,
-          y: canvas.height * 0.6,
-          radius: 250,
-          color: '#00d4ff',
-          opacity: 0.04,
-        },
-        {
-          x: canvas.width * 0.5,
-          y: canvas.height * 0.8,
-          radius: 180,
-          color: '#ec4899',
-          opacity: 0.03,
-        },
+        { x: canvas.width * 0.3, y: canvas.height * 0.3, radius: 200, color: '#a855f7', opacity: 0.05 },
+        { x: canvas.width * 0.7, y: canvas.height * 0.6, radius: 250, color: '#00d4ff', opacity: 0.04 },
+        { x: canvas.width * 0.5, y: canvas.height * 0.8, radius: 180, color: '#ec4899', opacity: 0.03 },
       ];
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const onMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       mouseRef.current = {
         x: (e.clientX - rect.left - canvas.width / 2) / canvas.width,
@@ -96,107 +75,84 @@ export default function InteractiveCosmos() {
 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
-    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mousemove', onMouseMove);
 
     let time = 0;
 
-    const animate = () => {
-      time += 0.016; // ~60fps
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw nebulae with parallax
-      nebulaeRef.current.forEach((nebula) => {
-        const parallaxX = mouseRef.current.x * 15;
-        const parallaxY = mouseRef.current.y * 15;
-
-        const gradient = ctx.createRadialGradient(
-          nebula.x + parallaxX,
-          nebula.y + parallaxY,
-          0,
-          nebula.x + parallaxX,
-          nebula.y + parallaxY,
-          nebula.radius
-        );
-        gradient.addColorStop(0, nebula.color + Math.floor(nebula.opacity * 2 * 255).toString(16).padStart(2, '0'));
-        gradient.addColorStop(0.5, nebula.color + Math.floor(nebula.opacity * 255).toString(16).padStart(2, '0'));
-        gradient.addColorStop(1, 'transparent');
-
-        ctx.beginPath();
-        ctx.arc(nebula.x + parallaxX, nebula.y + parallaxY, nebula.radius, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
-        ctx.fill();
-      });
-
-      // Draw stars with parallax and twinkle
-      starsRef.current.forEach((star) => {
-        const parallaxX = mouseRef.current.x * 30 * star.depth;
-        const parallaxY = mouseRef.current.y * 30 * star.depth;
-        
-        const twinkle = Math.sin(time * star.twinkleSpeed * 60 + star.twinkleOffset) * 0.5 + 0.5;
-        const currentSize = star.size * (0.5 + twinkle * 0.5);
-        const currentOpacity = 0.3 + twinkle * 0.7;
-
-        const x = star.x + parallaxX;
-        const y = star.y + parallaxY;
-
-        // Star glow
-        const gradient = ctx.createRadialGradient(x, y, 0, x, y, currentSize * 3);
-        gradient.addColorStop(0, star.color);
-        gradient.addColorStop(0.3, star.color + Math.floor(currentOpacity * 128).toString(16).padStart(2, '0'));
-        gradient.addColorStop(1, 'transparent');
-
-        ctx.beginPath();
-        ctx.arc(x, y, currentSize * 3, 0, Math.PI * 2);
-        ctx.fillStyle = gradient;
-        ctx.fill();
-
-        // Star core
-        ctx.beginPath();
-        ctx.arc(x, y, currentSize * 0.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity})`;
-        ctx.fill();
-      });
-
-      // Add shooting star occasionally
-      if (Math.random() < 0.002) {
-        drawShootingStar(ctx, canvas);
-      }
-
-      animationRef.current = requestAnimationFrame(animate);
-    };
-
-    const drawShootingStar = (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
+    const drawShootingStar = () => {
       const startX = Math.random() * canvas.width;
       const startY = Math.random() * canvas.height * 0.3;
       const length = 100 + Math.random() * 100;
       const angle = Math.PI / 4 + Math.random() * 0.2;
+      const endX = startX + Math.cos(angle) * length;
+      const endY = startY + Math.sin(angle) * length;
 
-      const gradient = ctx.createLinearGradient(
-        startX,
-        startY,
-        startX + Math.cos(angle) * length,
-        startY + Math.sin(angle) * length
-      );
+      const gradient = ctx.createLinearGradient(startX, startY, endX, endY);
       gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
       gradient.addColorStop(0.3, 'rgba(0, 212, 255, 0.4)');
       gradient.addColorStop(1, 'transparent');
 
       ctx.beginPath();
       ctx.moveTo(startX, startY);
-      ctx.lineTo(startX + Math.cos(angle) * length, startY + Math.sin(angle) * length);
+      ctx.lineTo(endX, endY);
       ctx.strokeStyle = gradient;
       ctx.lineWidth = 2;
       ctx.stroke();
+    };
+
+    const animate = () => {
+      time += 0.016;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      nebulaeRef.current.forEach((n) => {
+        const px = n.x + mouseRef.current.x * PARALLAX_NEBULA;
+        const py = n.y + mouseRef.current.y * PARALLAX_NEBULA;
+
+        const gradient = ctx.createRadialGradient(px, py, 0, px, py, n.radius);
+        gradient.addColorStop(0, n.color + toHex(n.opacity * 2));
+        gradient.addColorStop(0.5, n.color + toHex(n.opacity));
+        gradient.addColorStop(1, 'transparent');
+
+        ctx.beginPath();
+        ctx.arc(px, py, n.radius, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+      });
+
+      starsRef.current.forEach((s) => {
+        const px = s.x + mouseRef.current.x * PARALLAX_STAR * s.depth;
+        const py = s.y + mouseRef.current.y * PARALLAX_STAR * s.depth;
+        const twinkle = Math.sin(time * s.twinkleSpeed * 60 + s.twinkleOffset) * 0.5 + 0.5;
+        const size = s.size * (0.5 + twinkle * 0.5);
+        const opacity = 0.3 + twinkle * 0.7;
+
+        const gradient = ctx.createRadialGradient(px, py, 0, px, py, size * 3);
+        gradient.addColorStop(0, s.color);
+        gradient.addColorStop(0.3, s.color + toHex(opacity * 0.5));
+        gradient.addColorStop(1, 'transparent');
+
+        ctx.beginPath();
+        ctx.arc(px, py, size * 3, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(px, py, size * 0.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+        ctx.fill();
+      });
+
+      if (Math.random() < 0.002) drawShootingStar();
+
+      animationRef.current = requestAnimationFrame(animate);
     };
 
     animate();
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      canvas.removeEventListener('mousemove', onMouseMove);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
   }, []);
 

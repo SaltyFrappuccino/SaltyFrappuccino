@@ -4,6 +4,7 @@
   background: var(--bg-secondary);
   border-top: 1px solid var(--border-subtle);
   overflow: hidden;
+  scroll-snap-align: end;
 }
 
 .footer-content {

@@ -9,8 +9,8 @@ export default function ChillModeToggle() {
   const { i18n } = useTranslation();
 
   const label = i18n.language === 'ru' 
-    ? (isChillMode ? '🔥 Вернуть вырвиглазность' : '😎 Убрать вырвиглазность')
-    : (isChillMode ? '🔥 Enable Eye-Burn Mode' : '😎 Chill Mode');
+    ? (isChillMode ? '🔥 Вернуть красоту' : '😴 Сделать серым и скучным')
+    : (isChillMode ? '🔥 Bring back the beauty' : '😴 Make it gray & boring');
 
   return (
     <motion.button

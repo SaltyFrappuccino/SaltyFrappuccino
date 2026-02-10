@@ -1,7 +1,6 @@
-import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { motion, useInView } from 'framer-motion';
 import InteractiveCosmos from './InteractiveCosmos';
 import './Skills.css';
 
@@ -59,6 +58,16 @@ const skillCategories = {
     { name: 'MySQL', color: '#4479A1' },
     { name: 'SQLite', color: '#003B57' },
   ],
+} as const;
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { opacity: 1, scale: 1 },
 };
 
 export default function Skills() {
@@ -66,22 +75,8 @@ export default function Skills() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.05 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1 },
-  };
-
   return (
     <section id="skills" className="skills section" ref={ref}>
-      {/* Interactive Cosmos Background */}
       <InteractiveCosmos />
 
       <div className="container">
@@ -104,9 +99,7 @@ export default function Skills() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: catIndex * 0.1 }}
             >
-              <h3 className="category-title">
-                {t(`skills.categories.${category}`)}
-              </h3>
+              <h3 className="category-title">{t(`skills.categories.${category}`)}</h3>
               <motion.div
                 className="skill-tags"
                 variants={containerVariants}
@@ -118,18 +111,13 @@ export default function Skills() {
                     key={skill.name}
                     className="skill-tag"
                     variants={itemVariants}
-                    whileHover={{ 
+                    whileHover={{
                       scale: 1.1,
-                      boxShadow: `0 0 20px ${skill.color}40`
+                      boxShadow: `0 0 20px ${skill.color}40`,
                     }}
-                    style={{
-                      '--skill-color': skill.color,
-                    } as React.CSSProperties}
+                    style={{ '--skill-color': skill.color } as React.CSSProperties}
                   >
-                    <span 
-                      className="skill-dot" 
-                      style={{ backgroundColor: skill.color }}
-                    />
+                    <span className="skill-dot" style={{ backgroundColor: skill.color }} />
                     {skill.name}
                   </motion.span>
                 ))}
@@ -139,11 +127,9 @@ export default function Skills() {
         </div>
       </div>
 
-      {/* Background decoration */}
       <div className="skills-bg">
         <div className="hex-grid" />
       </div>
     </section>
   );
 }
-

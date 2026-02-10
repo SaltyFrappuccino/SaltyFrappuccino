@@ -11,18 +11,13 @@ import Footer from './components/Footer/Footer';
 import ParticleBackground from './components/ParticleBackground/ParticleBackground';
 import ChillModeToggle from './components/ChillModeToggle/ChillModeToggle';
 
-function App() {
+export default function App() {
   return (
     <ChillModeProvider>
-      {/* Background effects */}
       <div className="grid-bg" />
       <div className="scanlines" />
       <ParticleBackground />
-
-      {/* Chill mode toggle */}
       <ChillModeToggle />
-
-      {/* Main content */}
       <Header />
       <main>
         <Hero />
@@ -35,5 +30,3 @@ function App() {
     </ChillModeProvider>
   );
 }
-
-export default App;

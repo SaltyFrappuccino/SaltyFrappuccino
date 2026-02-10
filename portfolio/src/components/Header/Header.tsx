@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Globe } from 'lucide-react';
 import './Header.css';
 
-const navItems = ['home', 'about', 'skills', 'projects', 'contact'];
+const NAV_ITEMS = ['home', 'about', 'skills', 'projects', 'contact'] as const;
 
 export default function Header() {
   const { t, i18n } = useTranslation();
@@ -12,11 +12,9 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   const toggleLanguage = () => {
@@ -26,10 +24,7 @@ export default function Header() {
   };
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setIsMobileMenuOpen(false);
   };
 
@@ -48,7 +43,6 @@ export default function Header() {
             e.preventDefault();
             scrollToSection('home');
           }}
-          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           <span className="logo-bracket">&lt;</span>
@@ -58,7 +52,7 @@ export default function Header() {
         </motion.a>
 
         <nav className="nav-desktop">
-          {navItems.map((item, index) => (
+          {NAV_ITEMS.map((item, index) => (
             <motion.a
               key={item}
               href={`#${item}`}
@@ -108,7 +102,7 @@ export default function Header() {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {navItems.map((item, index) => (
+            {NAV_ITEMS.map((item, index) => (
               <motion.a
                 key={item}
                 href={`#${item}`}

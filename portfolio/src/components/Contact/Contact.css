@@ -4,37 +4,18 @@
   overflow: hidden;
 }
 
-/* Soft Ambient Orbs */
-.contact::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 600px;
-  height: 400px;
-  background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.1) 0%, transparent 60%);
-  filter: blur(80px);
-  animation: glow-pulse 10s ease-in-out infinite;
-  pointer-events: none;
+/* Neon cyan pulse on section title */
+.contact .section-title {
+  animation: neon-pulse-text 3s ease-in-out infinite;
 }
 
-.contact::after {
-  content: '';
-  position: absolute;
-  top: 20%;
-  right: 10%;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 60%);
-  filter: blur(60px);
-  animation: glow-pulse 15s ease-in-out infinite reverse;
-  pointer-events: none;
-}
-
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
-  50% { opacity: 0.9; transform: translateX(-50%) scale(1.1); }
+@keyframes neon-pulse-text {
+  0%, 100% { 
+    text-shadow: 0 0 4px rgba(0, 212, 255, 0.4);
+  }
+  50% { 
+    text-shadow: 0 0 8px rgba(0, 212, 255, 0.6), 0 0 15px rgba(0, 212, 255, 0.15);
+  }
 }
 
 .contact-description {

@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Code2, Brain, Rocket, Zap } from 'lucide-react';
 import FlyingParticles from './FlyingParticles';
@@ -20,29 +19,23 @@ const focusItems = [
   { key: 'frontend', icon: '🎨' },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
+
 export default function About() {
   const { t } = useTranslation();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0 },
-  };
-
   return (
     <section id="about" className="about section" ref={ref}>
-      {/* Flying Particles Background */}
       <FlyingParticles />
 
       <div className="container">
@@ -101,9 +94,9 @@ export default function About() {
                   key={stat.key}
                   className="stat-card"
                   variants={itemVariants}
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.05,
-                    boxShadow: '0 0 30px rgba(0, 255, 249, 0.3)'
+                    boxShadow: '0 0 30px rgba(0, 255, 249, 0.3)',
                   }}
                 >
                   <div className="stat-icon">
@@ -118,7 +111,6 @@ export default function About() {
         </div>
       </div>
 
-      {/* Decorative elements */}
       <div className="about-decoration">
         <div className="decoration-line decoration-line-1" />
         <div className="decoration-line decoration-line-2" />
@@ -126,4 +118,3 @@ export default function About() {
     </section>
   );
 }
-

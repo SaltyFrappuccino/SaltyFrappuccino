@@ -54,12 +54,20 @@
 .logo-bracket {
   color: var(--accent-cyan);
   text-shadow: 0 0 20px var(--accent-cyan);
-  transition: all var(--transition-fast);
+  transition: transform 0.3s ease-out, text-shadow 0.3s ease-out;
+  display: inline-block;
 }
 
 .logo:hover .logo-bracket {
   text-shadow: 0 0 30px var(--accent-cyan), 0 0 60px var(--accent-cyan);
-  animation: pulse-glow 0.5s ease;
+}
+
+.logo:hover .logo-bracket:first-child {
+  transform: translateX(-5px);
+}
+
+.logo:hover .logo-bracket:last-child {
+  transform: translateX(5px);
 }
 
 .logo-text {

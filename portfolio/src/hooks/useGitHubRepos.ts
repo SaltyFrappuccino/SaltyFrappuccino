@@ -65,7 +65,6 @@ export function useGitHubRepos(): UseGitHubReposResult {
           }
         );
 
-        // Filter out forks and sort by stars + recent updates
         const repos = response.data
           .filter((repo) => !repo.fork)
           .sort((a, b) => {
@@ -75,7 +74,6 @@ export function useGitHubRepos(): UseGitHubReposResult {
             return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
           });
 
-        // Extract unique languages
         const langs = [...new Set(repos.map(r => r.language).filter(Boolean) as string[])];
         
         setAllRepos(repos);

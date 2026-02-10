@@ -11,14 +11,24 @@ interface Drop {
   char: string;
   opacity: number;
   fadeSpeed: number;
+  trail: { y: number; char: string; opacity: number }[];
 }
 
-const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン</>{}[]()=+-*&%$#@!';
+const CHARS =
+  '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン</>{} []()=+-*&%$#@!';
+const FONT_SIZE = 14;
+const COLUMN_WIDTH = FONT_SIZE + 4;
+const TRAIL_LENGTH = 25;
+const MOUSE_RADIUS = 100;
+const SPAWN_RATE = 0.012;
+
+const randomChar = () => CHARS[Math.floor(Math.random() * CHARS.length)];
 
 export default function TerminalRain() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const columnsRef = useRef<Column[]>([]);
   const animationRef = useRef<number | undefined>(undefined);
+  const mouseRef = useRef<{ x: number; y: number }>({ x: -1000, y: -1000 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -27,90 +37,92 @@ export default function TerminalRain() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const fontSize = 14;
-    const columnWidth = fontSize + 4;
+    const onMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    };
+    const onMouseLeave = () => {
+      mouseRef.current = { x: -1000, y: -1000 };
+    };
+    canvas.addEventListener('mousemove', onMouseMove);
+    canvas.addEventListener('mouseleave', onMouseLeave);
 
     const resizeCanvas = () => {
       const parent = canvas.parentElement;
-      if (parent) {
-        canvas.width = parent.offsetWidth;
-        canvas.height = parent.offsetHeight;
-        initColumns();
-      }
+      if (!parent) return;
+      canvas.width = parent.offsetWidth;
+      canvas.height = parent.offsetHeight;
+      initColumns();
     };
 
     const initColumns = () => {
-      const columnCount = Math.floor(canvas.width / columnWidth);
-      columnsRef.current = [];
-
-      for (let i = 0; i < columnCount; i++) {
-        columnsRef.current.push({
-          x: i * columnWidth,
-          drops: [],
-          speed: 0.5 + Math.random() * 1.5,
-        });
-
-        // Initial drops
-        const initialDrops = Math.floor(Math.random() * 8);
+      const count = Math.floor(canvas.width / COLUMN_WIDTH);
+      columnsRef.current = Array.from({ length: count }, (_, i) => {
+        const col: Column = { x: i * COLUMN_WIDTH, drops: [], speed: 0.5 + Math.random() * 1.5 };
+        const initialDrops = Math.floor(Math.random() * 5);
         for (let j = 0; j < initialDrops; j++) {
-          columnsRef.current[i].drops.push({
+          col.drops.push({
             y: Math.random() * canvas.height,
-            char: chars[Math.floor(Math.random() * chars.length)],
-            opacity: 0.3 + Math.random() * 0.5,
-            fadeSpeed: 0.005 + Math.random() * 0.01,
+            char: randomChar(),
+            opacity: 0.3 + Math.random() * 0.4,
+            fadeSpeed: 0.002 + Math.random() * 0.004,
+            trail: [],
           });
         }
-      }
+        return col;
+      });
     };
 
     const animate = () => {
-      // Semi-transparent black for trail effect
-      ctx.fillStyle = 'rgba(5, 5, 16, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.font = `${FONT_SIZE}px 'JetBrains Mono', monospace`;
+      const mouse = mouseRef.current;
 
-      ctx.font = `${fontSize}px 'JetBrains Mono', monospace`;
-
-      columnsRef.current.forEach((column) => {
-        // Add new drops randomly
-        if (Math.random() < 0.01) {
-          column.drops.push({
-            y: -fontSize,
-            char: chars[Math.floor(Math.random() * chars.length)],
+      columnsRef.current.forEach((col) => {
+        if (Math.random() < SPAWN_RATE) {
+          col.drops.push({
+            y: -FONT_SIZE,
+            char: randomChar(),
             opacity: 0.6 + Math.random() * 0.4,
-            fadeSpeed: 0.005 + Math.random() * 0.01,
+            fadeSpeed: 0.002 + Math.random() * 0.004,
+            trail: [],
           });
         }
 
-        // Update and draw drops
-        column.drops = column.drops.filter((drop) => {
-          // Update
-          drop.y += column.speed;
+        col.drops = col.drops.filter((drop) => {
+          drop.trail.push({ y: drop.y, char: drop.char, opacity: drop.opacity });
+          if (drop.trail.length > TRAIL_LENGTH) drop.trail.shift();
+
+          drop.y += col.speed;
           drop.opacity -= drop.fadeSpeed;
 
-          // Randomly change character
-          if (Math.random() < 0.01) {
-            drop.char = chars[Math.floor(Math.random() * chars.length)];
-          }
+          if (Math.random() < 0.02) drop.char = randomChar();
 
-          // Draw
-          if (drop.opacity > 0) {
-            // Leading character (brighter)
-            const isLeading = drop.opacity > 0.5;
-            
-            if (isLeading) {
-              ctx.shadowColor = '#00d4ff';
-              ctx.shadowBlur = 10;
-              ctx.fillStyle = `rgba(0, 212, 255, ${drop.opacity})`;
-            } else {
-              ctx.shadowBlur = 0;
-              ctx.fillStyle = `rgba(0, 212, 255, ${drop.opacity * 0.5})`;
+          drop.trail.forEach((t, i) => {
+            const alpha = (i / drop.trail.length) * t.opacity * 0.3;
+            if (alpha > 0.01) {
+              ctx.fillStyle = `rgba(0, 212, 255, ${alpha})`;
+              ctx.fillText(t.char, col.x, t.y);
             }
+          });
 
-            ctx.fillText(drop.char, column.x, drop.y);
+          const dx = col.x - mouse.x;
+          const dy = drop.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          let brightness = Math.min(drop.opacity, 0.7);
+
+          if (dist < MOUSE_RADIUS) {
+            const boost = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
+            drop.y += boost * 2;
+            brightness = Math.min(brightness + boost * 0.4, 1.0);
           }
 
-          // Keep if still visible and on screen
-          return drop.opacity > 0 && drop.y < canvas.height + fontSize;
+          if (drop.opacity > 0) {
+            ctx.fillStyle = `rgba(0, 212, 255, ${brightness})`;
+            ctx.fillText(drop.char, col.x, drop.y);
+          }
+
+          return drop.opacity > 0 && drop.y < canvas.height + FONT_SIZE;
         });
       });
 
@@ -123,9 +135,9 @@ export default function TerminalRain() {
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      canvas.removeEventListener('mousemove', onMouseMove);
+      canvas.removeEventListener('mouseleave', onMouseLeave);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
   }, []);
 
@@ -139,9 +151,8 @@ export default function TerminalRain() {
         left: 0,
         width: '100%',
         height: '100%',
-        pointerEvents: 'none',
         zIndex: 0,
-        opacity: 0.4,
+        opacity: 0.5,
       }}
     />
   );

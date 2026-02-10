@@ -7,6 +7,8 @@
   overflow: hidden;
   padding-top: 80px;
   background: linear-gradient(180deg, #0a0a12 0%, #1a0a20 50%, #0a0a12 100%);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 /* ==========================================

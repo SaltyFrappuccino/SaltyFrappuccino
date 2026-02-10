@@ -1,14 +1,24 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { Star, GitFork, ExternalLink, Github, Search, X, Calendar, Code2, ChevronDown, ArrowUpDown, Filter } from 'lucide-react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
+import {
+  Star,
+  GitFork,
+  ExternalLink,
+  Github,
+  Search,
+  X,
+  Calendar,
+  Code2,
+  ChevronDown,
+  ArrowUpDown,
+  Filter,
+} from 'lucide-react';
 import { useGitHubRepos, type Repository } from '../../hooks/useGitHubRepos';
 import DataCubes from './DataCubes';
 import './Projects.css';
 
-const languageColors: Record<string, string> = {
+const LANGUAGE_COLORS: Record<string, string> = {
   TypeScript: '#3178C6',
   JavaScript: '#F7DF1E',
   Python: '#3776AB',
@@ -34,63 +44,51 @@ const languageColors: Record<string, string> = {
 type SortType = 'stars' | 'date' | 'name';
 type DateRange = 'all' | 'thisYear' | 'lastYear';
 
+const PAGE_SIZE = 9;
+
 export default function Projects() {
   const { t } = useTranslation();
-  const { 
-    allRepos, 
-    loading, 
-    error, 
-    languages, 
-  } = useGitHubRepos();
-  
+  const { allRepos, loading, error, languages } = useGitHubRepos();
+
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  
+
   const [selectedRepo, setSelectedRepo] = useState<Repository | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeLanguages, setActiveLanguages] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('stars');
   const [dateRange, setDateRange] = useState<DateRange>('all');
   const [showFilters, setShowFilters] = useState(false);
-  const [displayCount, setDisplayCount] = useState(9);
+  const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
 
-  // Filter and sort repos
   const filteredRepos = useMemo(() => {
     let result = [...allRepos];
 
-    // Search filter
     if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(r => 
-        r.name.toLowerCase().includes(query) ||
-        r.description?.toLowerCase().includes(query) ||
-        r.topics?.some(t => t.toLowerCase().includes(query))
+      const q = searchQuery.toLowerCase();
+      result = result.filter(
+        (r) =>
+          r.name.toLowerCase().includes(q) ||
+          r.description?.toLowerCase().includes(q) ||
+          r.topics?.some((topic) => topic.toLowerCase().includes(q)),
       );
     }
 
-    // Language filter (multiple)
     if (activeLanguages.length > 0) {
-      result = result.filter(r => r.language && activeLanguages.includes(r.language));
+      result = result.filter((r) => r.language && activeLanguages.includes(r.language));
     }
 
-    // Date range filter
-    const now = new Date();
-    const thisYear = now.getFullYear();
+    const thisYear = new Date().getFullYear();
     if (dateRange === 'thisYear') {
-      result = result.filter(r => new Date(r.updated_at).getFullYear() === thisYear);
+      result = result.filter((r) => new Date(r.updated_at).getFullYear() === thisYear);
     } else if (dateRange === 'lastYear') {
-      result = result.filter(r => new Date(r.updated_at).getFullYear() === thisYear - 1);
+      result = result.filter((r) => new Date(r.updated_at).getFullYear() === thisYear - 1);
     }
 
-    // Sort
     result.sort((a, b) => {
-      if (sortBy === 'stars') {
-        return b.stargazers_count - a.stargazers_count;
-      } else if (sortBy === 'date') {
-        return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
-      } else {
-        return a.name.localeCompare(b.name);
-      }
+      if (sortBy === 'stars') return b.stargazers_count - a.stargazers_count;
+      if (sortBy === 'date') return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+      return a.name.localeCompare(b.name);
     });
 
     return result;
@@ -100,16 +98,10 @@ export default function Projects() {
   const hasMore = displayCount < filteredRepos.length;
 
   const toggleLanguage = (lang: string) => {
-    setActiveLanguages(prev => 
-      prev.includes(lang) 
-        ? prev.filter(l => l !== lang)
-        : [...prev, lang]
+    setActiveLanguages((prev) =>
+      prev.includes(lang) ? prev.filter((l) => l !== lang) : [...prev, lang],
     );
-    setDisplayCount(9);
-  };
-
-  const loadMore = () => {
-    setDisplayCount(prev => prev + 9);
+    setDisplayCount(PAGE_SIZE);
   };
 
   const clearFilters = () => {
@@ -117,23 +109,18 @@ export default function Projects() {
     setActiveLanguages([]);
     setDateRange('all');
     setSortBy('stars');
-    setDisplayCount(9);
+    setDisplayCount(PAGE_SIZE);
   };
 
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString(undefined, {
+  const formatDate = (dateStr: string) =>
+    new Date(dateStr).toLocaleDateString(undefined, {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
-  };
-
-
 
   return (
     <section id="projects" className="projects section" ref={ref}>
-      {/* Data Cubes Background */}
       <DataCubes />
 
       <div className="container">
@@ -147,7 +134,6 @@ export default function Projects() {
           <h2 className="section-title neon-text">{t('projects.title')}</h2>
         </motion.div>
 
-        {/* Search and Filters */}
         <motion.div
           className="projects-controls"
           initial={{ opacity: 0, y: 20 }}
@@ -163,7 +149,7 @@ export default function Projects() {
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
-                  setDisplayCount(9);
+                  setDisplayCount(PAGE_SIZE);
                 }}
               />
               {searchQuery && (
@@ -173,7 +159,7 @@ export default function Projects() {
               )}
             </div>
 
-            <button 
+            <button
               className={`filter-toggle-btn ${showFilters ? 'active' : ''}`}
               onClick={() => setShowFilters(!showFilters)}
             >
@@ -182,7 +168,6 @@ export default function Projects() {
             </button>
           </div>
 
-          {/* Advanced Filters Panel */}
           <AnimatePresence>
             {showFilters && (
               <motion.div
@@ -195,22 +180,13 @@ export default function Projects() {
                 <div className="filter-group">
                   <label><ArrowUpDown size={14} /> {t('projects.filter.sort')}</label>
                   <div className="filter-options">
-                    <button 
-                      className={`filter-option ${sortBy === 'stars' ? 'active' : ''}`}
-                      onClick={() => setSortBy('stars')}
-                    >
+                    <button className={`filter-option ${sortBy === 'stars' ? 'active' : ''}`} onClick={() => setSortBy('stars')}>
                       <Star size={14} /> {t('projects.filter.byStars')}
                     </button>
-                    <button 
-                      className={`filter-option ${sortBy === 'date' ? 'active' : ''}`}
-                      onClick={() => setSortBy('date')}
-                    >
+                    <button className={`filter-option ${sortBy === 'date' ? 'active' : ''}`} onClick={() => setSortBy('date')}>
                       <Calendar size={14} /> {t('projects.filter.byDate')}
                     </button>
-                    <button 
-                      className={`filter-option ${sortBy === 'name' ? 'active' : ''}`}
-                      onClick={() => setSortBy('name')}
-                    >
+                    <button className={`filter-option ${sortBy === 'name' ? 'active' : ''}`} onClick={() => setSortBy('name')}>
                       {t('projects.filter.byName')}
                     </button>
                   </div>
@@ -219,22 +195,13 @@ export default function Projects() {
                 <div className="filter-group">
                   <label><Calendar size={14} /> {t('projects.filter.dateRange')}</label>
                   <div className="filter-options">
-                    <button 
-                      className={`filter-option ${dateRange === 'all' ? 'active' : ''}`}
-                      onClick={() => setDateRange('all')}
-                    >
+                    <button className={`filter-option ${dateRange === 'all' ? 'active' : ''}`} onClick={() => setDateRange('all')}>
                       {t('projects.filter.allTime')}
                     </button>
-                    <button 
-                      className={`filter-option ${dateRange === 'thisYear' ? 'active' : ''}`}
-                      onClick={() => setDateRange('thisYear')}
-                    >
+                    <button className={`filter-option ${dateRange === 'thisYear' ? 'active' : ''}`} onClick={() => setDateRange('thisYear')}>
                       {t('projects.filter.thisYear')}
                     </button>
-                    <button 
-                      className={`filter-option ${dateRange === 'lastYear' ? 'active' : ''}`}
-                      onClick={() => setDateRange('lastYear')}
-                    >
+                    <button className={`filter-option ${dateRange === 'lastYear' ? 'active' : ''}`} onClick={() => setDateRange('lastYear')}>
                       {t('projects.filter.lastYear')}
                     </button>
                   </div>
@@ -249,7 +216,6 @@ export default function Projects() {
             )}
           </AnimatePresence>
 
-          {/* Language Tags */}
           <div className="filter-tags">
             <motion.button
               className={`filter-tag ${activeLanguages.length === 0 ? 'active' : ''}`}
@@ -266,15 +232,12 @@ export default function Projects() {
                 onClick={() => toggleLanguage(lang)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                style={{ 
-                  borderColor: activeLanguages.includes(lang) ? languageColors[lang] : undefined,
-                  boxShadow: activeLanguages.includes(lang) ? `0 0 15px ${languageColors[lang]}40` : undefined
+                style={{
+                  borderColor: activeLanguages.includes(lang) ? LANGUAGE_COLORS[lang] : undefined,
+                  boxShadow: activeLanguages.includes(lang) ? `0 0 15px ${LANGUAGE_COLORS[lang]}40` : undefined,
                 }}
               >
-                <span 
-                  className="lang-dot" 
-                  style={{ backgroundColor: languageColors[lang] || '#888' }}
-                />
+                <span className="lang-dot" style={{ backgroundColor: LANGUAGE_COLORS[lang] || '#888' }} />
                 {lang}
               </motion.button>
             ))}
@@ -302,10 +265,7 @@ export default function Projects() {
               animate="visible"
               variants={{
                 hidden: { opacity: 0 },
-                visible: { 
-                  opacity: 1,
-                  transition: { staggerChildren: 0.05 }
-                }
+                visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
               }}
             >
               {displayedRepos.map((repo, index) => (
@@ -314,7 +274,7 @@ export default function Projects() {
                   className="project-card"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index < 9 ? index * 0.05 : 0 }}
+                  transition={{ duration: 0.3, delay: index < PAGE_SIZE ? index * 0.05 : 0 }}
                   layout
                   whileHover={{ y: -8 }}
                   onClick={() => setSelectedRepo(repo)}
@@ -341,14 +301,11 @@ export default function Projects() {
                       <span className="project-language">
                         <span
                           className="language-dot"
-                          style={{
-                            backgroundColor: languageColors[repo.language] || '#888',
-                          }}
+                          style={{ backgroundColor: LANGUAGE_COLORS[repo.language] || '#888' }}
                         />
                         {repo.language}
                       </span>
                     )}
-
                     <div className="project-stats">
                       {repo.stargazers_count > 0 && (
                         <span className="project-stat">
@@ -368,9 +325,7 @@ export default function Projects() {
                   {repo.topics && repo.topics.length > 0 && (
                     <div className="project-topics">
                       {repo.topics.slice(0, 3).map((topic) => (
-                        <span key={topic} className="topic-tag">
-                          {topic}
-                        </span>
+                        <span key={topic} className="topic-tag">{topic}</span>
                       ))}
                       {repo.topics.length > 3 && (
                         <span className="topic-more">+{repo.topics.length - 3}</span>
@@ -390,7 +345,7 @@ export default function Projects() {
               >
                 <motion.button
                   className="btn btn-secondary load-more-btn"
-                  onClick={loadMore}
+                  onClick={() => setDisplayCount((prev) => prev + PAGE_SIZE)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -420,7 +375,6 @@ export default function Projects() {
         )}
       </div>
 
-      {/* Project Detail Modal */}
       <AnimatePresence>
         {selectedRepo && (
           <motion.div
@@ -444,10 +398,13 @@ export default function Projects() {
               <div className="modal-header">
                 <h2>{selectedRepo.name}</h2>
                 {selectedRepo.language && (
-                  <span className="modal-language" style={{ 
-                    borderColor: languageColors[selectedRepo.language] || '#888',
-                    color: languageColors[selectedRepo.language] || '#888'
-                  }}>
+                  <span
+                    className="modal-language"
+                    style={{
+                      borderColor: LANGUAGE_COLORS[selectedRepo.language] || '#888',
+                      color: LANGUAGE_COLORS[selectedRepo.language] || '#888',
+                    }}
+                  >
                     <Code2 size={16} />
                     {selectedRepo.language}
                   </span>
