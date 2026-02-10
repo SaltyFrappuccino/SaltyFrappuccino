@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
+import InteractiveCosmos from './InteractiveCosmos';
 import './Skills.css';
 
 const skillCategories = {
@@ -80,6 +81,9 @@ export default function Skills() {
 
   return (
     <section id="skills" className="skills section" ref={ref}>
+      {/* Interactive Cosmos Background */}
+      <InteractiveCosmos />
+
       <div className="container">
         <motion.div
           className="section-header"
@@ -142,3 +146,4 @@ export default function Skills() {
     </section>
   );
 }
+

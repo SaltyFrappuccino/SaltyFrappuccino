@@ -5,6 +5,7 @@ import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Star, GitFork, ExternalLink, Github, Search, X, Calendar, Code2, ChevronDown, ArrowUpDown, Filter } from 'lucide-react';
 import { useGitHubRepos, type Repository } from '../../hooks/useGitHubRepos';
+import DataCubes from './DataCubes';
 import './Projects.css';
 
 const languageColors: Record<string, string> = {
@@ -132,6 +133,9 @@ export default function Projects() {
 
   return (
     <section id="projects" className="projects section" ref={ref}>
+      {/* Data Cubes Background */}
+      <DataCubes />
+
       <div className="container">
         <motion.div
           className="section-header"

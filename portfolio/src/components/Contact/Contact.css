@@ -1,21 +1,40 @@
 .contact {
   position: relative;
-  background: var(--bg-primary);
+  background: linear-gradient(180deg, #050510 0%, #0a0a15 100%);
   overflow: hidden;
 }
 
-/* Unique Background - Gradient Glow */
+/* Soft Ambient Orbs */
 .contact::before {
   content: '';
   position: absolute;
-  bottom: -200px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 800px;
+  width: 600px;
   height: 400px;
-  background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.15), transparent 70%);
-  filter: blur(60px);
+  background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.1) 0%, transparent 60%);
+  filter: blur(80px);
+  animation: glow-pulse 10s ease-in-out infinite;
   pointer-events: none;
+}
+
+.contact::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  right: 10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 60%);
+  filter: blur(60px);
+  animation: glow-pulse 15s ease-in-out infinite reverse;
+  pointer-events: none;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.9; transform: translateX(-50%) scale(1.1); }
 }
 
 .contact-description {
@@ -43,11 +62,12 @@
   position: relative;
   display: flex;
   align-items: stretch;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  background: rgba(10, 10, 20, 0.6);
+  border: 1px solid rgba(0, 212, 255, 0.1);
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: all var(--transition-normal);
+  backdrop-filter: blur(10px);
 }
 
 .contact-card::before {
@@ -63,9 +83,9 @@
 }
 
 .contact-card:hover {
-  border-color: var(--contact-color, var(--accent-cyan));
+  border-color: var(--contact-color, rgba(0, 212, 255, 0.3));
   transform: translateY(-3px) translateX(5px);
-  box-shadow: 0 0 25px rgba(var(--contact-rgb, 0, 212, 255), 0.2), var(--shadow-md);
+  box-shadow: 0 0 30px rgba(var(--contact-rgb, 0, 212, 255), 0.1);
 }
 
 .contact-card:hover::before {
@@ -89,7 +109,7 @@
   width: 52px;
   height: 52px;
   background: rgba(var(--contact-rgb, 0, 212, 255), 0.1);
-  border: 1px solid rgba(var(--contact-rgb, 0, 212, 255), 0.2);
+  border: 1px solid rgba(var(--contact-rgb, 0, 212, 255), 0.15);
   border-radius: var(--radius-md);
   color: var(--contact-color, var(--accent-cyan));
   transition: all var(--transition-fast);
@@ -97,7 +117,7 @@
 
 .contact-card:hover .contact-icon {
   transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(var(--contact-rgb, 0, 212, 255), 0.3);
+  box-shadow: 0 0 20px rgba(var(--contact-rgb, 0, 212, 255), 0.2);
 }
 
 .contact-info {
@@ -160,21 +180,6 @@
 .copy-btn .copied {
   color: var(--accent-green);
   text-shadow: 0 0 10px var(--accent-green);
-}
-
-/* Background decoration */
-.contact-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.contact-glow {
-  display: none; /* Replaced by ::before */
 }
 
 /* Responsive */

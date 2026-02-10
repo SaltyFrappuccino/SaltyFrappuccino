@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Code2, Brain, Rocket, Zap } from 'lucide-react';
+import FlyingParticles from './FlyingParticles';
 import './About.css';
 
 const stats = [
@@ -41,6 +42,9 @@ export default function About() {
 
   return (
     <section id="about" className="about section" ref={ref}>
+      {/* Flying Particles Background */}
+      <FlyingParticles />
+
       <div className="container">
         <motion.div
           className="section-header"
@@ -122,3 +126,4 @@ export default function About() {
     </section>
   );
 }
+

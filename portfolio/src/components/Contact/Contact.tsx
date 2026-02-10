@@ -4,6 +4,7 @@ import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Github, Send, Mail, Copy, Check } from 'lucide-react';
 import { useState } from 'react';
+import TerminalRain from './TerminalRain';
 import './Contact.css';
 
 const contacts = [
@@ -57,6 +58,9 @@ export default function Contact() {
 
   return (
     <section id="contact" className="contact section" ref={ref}>
+      {/* Terminal Rain Background */}
+      <TerminalRain />
+
       <div className="container">
         <motion.div
           className="section-header"

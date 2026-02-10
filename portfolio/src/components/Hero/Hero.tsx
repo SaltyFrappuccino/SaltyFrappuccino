@@ -1,10 +1,134 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { ChevronDown, Github, Send } from 'lucide-react';
+import { ChevronDown, Github, Send, FileCode, ChevronUp } from 'lucide-react';
 import './Hero.css';
+
+// Code snippets in different languages
+const codeFiles = [
+  {
+    name: 'developer.ts',
+    language: 'TypeScript',
+    code: `const developer = {
+  name: "Alexander",
+  aka: "SaltyFrappuccino",
+  age: 21,
+  location: "Russia 🇷🇺",
+  
+  skills: [
+    "Fullstack",
+    "AI Engineering",
+    "System Design"
+  ],
+  
+  currentlyLearning: "∞",
+  
+  getDrink(): string {
+    return "☕ Frappuccino";
+  }
+};`
+  },
+  {
+    name: 'developer.py',
+    language: 'Python',
+    code: `developer = {
+    "name": "Alexander",
+    "aka": "SaltyFrappuccino",
+    "age": 21,
+    "location": "Russia 🇷🇺",
+    
+    "skills": [
+        "Fullstack",
+        "AI Engineering",
+        "System Design"
+    ],
+    
+    "currently_learning": "∞",
+}
+
+def get_drink() -> str:
+    return "☕ Frappuccino"`
+  },
+  {
+    name: 'developer.go',
+    language: 'Go',
+    code: `type Developer struct {
+    Name     string
+    Aka      string
+    Age      int
+    Location string
+    Skills   []string
+}
+
+var developer = Developer{
+    Name:     "Alexander",
+    Aka:      "SaltyFrappuccino",
+    Age:      21,
+    Location: "Russia 🇷🇺",
+    Skills:   []string{
+        "Fullstack",
+        "AI Engineering",
+        "System Design",
+    },
+}
+
+func GetDrink() string {
+    return "☕ Frappuccino"
+}`
+  },
+  {
+    name: 'Developer.java',
+    language: 'Java',
+    code: `public class Developer {
+    String name = "Alexander";
+    String aka = "SaltyFrappuccino";
+    int age = 21;
+    String location = "Russia 🇷🇺";
+    
+    String[] skills = {
+        "Fullstack",
+        "AI Engineering",
+        "System Design"
+    };
+    
+    String getDrink() {
+        return "☕ Frappuccino";
+    }
+}`
+  },
+  {
+    name: 'developer.rs',
+    language: 'Rust',
+    code: `struct Developer {
+    name: &'static str,
+    aka: &'static str,
+    age: u8,
+    location: &'static str,
+    skills: Vec<&'static str>,
+}
+
+const DEVELOPER: Developer = Developer {
+    name: "Alexander",
+    aka: "SaltyFrappuccino",
+    age: 21,
+    location: "Russia 🇷🇺",
+    skills: vec![
+        "Fullstack",
+        "AI Engineering",
+        "System Design"
+    ],
+};
+
+fn get_drink() -> &'static str {
+    "☕ Frappuccino"
+}`
+  }
+];
 
 export default function Hero() {
   const { t } = useTranslation();
+  const [selectedFileIndex, setSelectedFileIndex] = useState(0);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const scrollToProjects = () => {
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
@@ -14,14 +138,19 @@ export default function Hero() {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const currentFile = codeFiles[selectedFileIndex];
+
   return (
     <section id="home" className="hero">
-      {/* Animated background elements */}
+      {/* Synthwave Grid Background */}
       <div className="hero-bg">
+        <div className="synthwave-grid">
+          <div className="grid-lines"></div>
+        </div>
         <div className="hero-orb hero-orb-1" />
         <div className="hero-orb hero-orb-2" />
         <div className="hero-orb hero-orb-3" />
-        <div className="hero-grid" />
+        <div className="synthwave-sun" />
       </div>
 
       <div className="hero-content container">
@@ -97,41 +226,71 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Decorative code block */}
+        {/* Draggable Code Window with Language Dropdown */}
         <motion.div
           className="hero-decoration"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.6, duration: 0.8 }}
+          drag
+          dragConstraints={{ left: -200, right: 200, top: -100, bottom: 100 }}
+          dragElastic={0.1}
+          whileDrag={{ scale: 1.02, cursor: 'grabbing' }}
+          style={{ cursor: 'grab' }}
         >
           <div className="code-window">
             <div className="code-window-header">
               <span className="code-dot red" />
               <span className="code-dot yellow" />
               <span className="code-dot green" />
-              <span className="code-title">developer.ts</span>
+              
+              {/* Language Dropdown */}
+              <div className="file-dropdown">
+                <button 
+                  className="file-dropdown-trigger"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsDropdownOpen(!isDropdownOpen);
+                  }}
+                >
+                  <FileCode size={14} />
+                  <span>{currentFile.name}</span>
+                  {isDropdownOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                </button>
+                
+                {isDropdownOpen && (
+                  <motion.div 
+                    className="file-dropdown-menu"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                  >
+                    {codeFiles.map((file, index) => (
+                      <button
+                        key={file.name}
+                        className={`file-dropdown-item ${index === selectedFileIndex ? 'active' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedFileIndex(index);
+                          setIsDropdownOpen(false);
+                        }}
+                      >
+                        <FileCode size={14} />
+                        <span className="file-name">{file.name}</span>
+                        <span className="file-lang">{file.language}</span>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </div>
             </div>
             <div className="code-content">
-              <pre>
-{`const developer = {
-  name: "Alexander",
-  aka: "SaltyFrappuccino",
-  age: 21,
-  location: "Russia 🇷🇺",
-  
-  skills: [
-    "Fullstack",
-    "AI Engineering",
-    "System Design"
-  ],
-  
-  currentlyLearning: "∞",
-  
-  getDrink(): string {
-    return "☕ Frappuccino";
-  }
-};`}
+              <pre key={selectedFileIndex}>
+                {currentFile.code}
               </pre>
+            </div>
+            <div className="drag-hint">
+              <span>⋮⋮ drag me</span>
             </div>
           </div>
         </motion.div>
