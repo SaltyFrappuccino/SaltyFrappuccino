@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LFT — SaltyFrappuccino</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0a12;
+    color: #f0f6fc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 24px;
+  }
+
+  .card {
+    position: relative;
+    width: 820px;
+    padding: 48px 52px;
+    background: #0d1117;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 20px;
+    box-shadow:
+      0 0 80px rgba(168, 85, 247, 0.12),
+      0 0 160px rgba(0, 212, 255, 0.06),
+      0 30px 80px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, #00d4ff, #a855f7, #ec4899);
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb-1 {
+    width: 300px; height: 300px;
+    background: rgba(168, 85, 247, 0.12);
+    filter: blur(80px);
+    top: -100px; left: -80px;
+  }
+
+  .orb-2 {
+    width: 250px; height: 250px;
+    background: rgba(0, 212, 255, 0.08);
+    filter: blur(80px);
+    bottom: -80px; right: -60px;
+  }
+
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .name {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #f0f6fc 0%, #00d4ff 60%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  .subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: #a855f7;
+    margin-top: 6px;
+    text-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.25);
+    border-radius: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #00d4ff;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+    margin-top: 8px;
+  }
+
+  .badge::before {
+    content: '🔍';
+  }
+
+  .intro {
+    font-size: 1rem;
+    color: #8b949e;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .intro strong {
+    color: #f0f6fc;
+    font-weight: 600;
+  }
+
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .block {
+    background: rgba(22, 27, 34, 0.6);
+    border: 1px solid rgba(240, 246, 252, 0.08);
+    border-radius: 14px;
+    padding: 20px 22px;
+  }
+
+  .block-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #00d4ff;
+    margin-bottom: 14px;
+    text-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    padding: 5px 12px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    background: rgba(168, 85, 247, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.15);
+    border-radius: 8px;
+    color: #c4b5fd;
+  }
+
+  .achievements-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .achievements-list li {
+    font-size: 0.8rem;
+    color: #8b949e;
+    line-height: 1.5;
+    padding-left: 18px;
+    position: relative;
+  }
+
+  .achievements-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #a855f7;
+    text-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+  }
+
+  .achievements-list li.winner::before {
+    content: '🏆';
+    text-shadow: none;
+    font-size: 0.7rem;
+  }
+
+  .achievements-list li strong {
+    color: #f0f6fc;
+    font-weight: 600;
+  }
+
+  .footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 24px;
+    border-top: 1px solid rgba(240, 246, 252, 0.06);
+    position: relative;
+    z-index: 2;
+  }
+
+  .links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: #8b949e;
+  }
+
+  .link span {
+    color: #6e7681;
+    margin-right: 4px;
+  }
+
+  .cta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: #6e7681;
+    font-style: italic;
+  }
+
+  .download-btn {
+    padding: 14px 32px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #00d4ff, #a855f7);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.5), 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .download-btn:active {
+    transform: scale(0.97);
+  }
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="header">
+    <div>
+      <div class="name">Александр Шестак</div>
+      <div class="subtitle">AI Engineer & Fullstack  @ Сбер</div>
+    </div>
+    <div class="badge">Ищу тиммейтов</div>
+  </div>
+
+  <div class="intro">
+    <strong>Саньчоус, 21.</strong> Могу закрыть в команде бэк, фронт, ML или девопс — гибкий. </br>
+    Стек подстрою, главное чтоб руки росли откуда надо и было желание упахиваться ради мероприятия.
+  </div>
+
+  <div class="columns">
+    <div class="block">
+      <div class="block-title">// стек</div>
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">TS</span>
+        <span class="tag">Go</span>
+        <span class="tag">Java</span>
+        <span class="tag">PHP</span>
+        <span class="tag">React</span>
+        <span class="tag">Next.js</span>
+        <span class="tag">Redux</span>
+        <span class="tag">Vite</span>
+        <span class="tag">FastAPI</span>
+        <span class="tag">Django</span>
+        <span class="tag">Spring</span>
+        <span class="tag">Laravel</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">Gin</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">Redis</span>
+        <span class="tag">Mongo</span>
+        <span class="tag">Docker</span>
+        <span class="tag">AWS</span>
+        <span class="tag">Google Cloud</span>
+        <span class="tag">LangChain</span>
+        <span class="tag">LangGraph</span>
+        <span class="tag">TensorFlow</span>
+        <span class="tag">Pandas</span>
+        <span class="tag">scikit-learn</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-title">// достижения</div>
+      <ul class="achievements-list">
+        <li class="winner"><strong>Gen AI Sber</strong> — победитель</li>
+        <li class="winner"><strong>Hack&Change 2024</strong> — победитель</li>
+        <li class="winner"><strong>Hack&Change 2025</strong> — победитель</li>
+        <li><strong>Cup IT</strong> — HQA</li>
+        <li><strong>WorldSkills Russia</strong> — 3 место</li>
+        <li><strong>Формула++ 2022</strong> — 1 степень</li>
+        <li><strong>Цифровой Прорыв</strong> — финалист</li>
+        <li><strong>DataWagon</strong> — финалист</li>
+        <li>Alfa Hack, MORE Tech VTB, True Tech Camp...</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-row">
+    <div class="links">
+      <div class="link"><span>gh/</span>SaltyFrappuccino</div>
+      <div class="link"><span>tg/</span>@SaltyFrappuccino</div>
+    </div>
+    <div class="cta">// пишем и не стесняемся</div>
+  </div>
+</div>
+
+<button class="download-btn" onclick="downloadCard()">📥 Скачать как PNG</button>
+
+<script>
+  function downloadCard() {
+    const card = document.getElementById('card');
+    const scale = 2;
+    const style = {
+      transform: 'scale(' + scale + ')',
+      transformOrigin: 'top left',
+      width: card.offsetWidth + 'px',
+      height: card.offsetHeight + 'px'
+    };
+
+    domtoimage.toPng(card, {
+      width: card.offsetWidth * scale,
+      height: card.offsetHeight * scale,
+      style: style
+    })
+    .then(function (dataUrl) {
+      const link = document.createElement('a');
+      link.download = 'hackathon-card.png';
+      link.href = dataUrl;
+      link.click();
+    })
+    .catch(function (error) {
+    });
+  }
+</script>
+
+</body>
+</html>
