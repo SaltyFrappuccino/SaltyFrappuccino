@@ -65,6 +65,15 @@ const skillCategories = {
   ],
 } as const;
 
+const categoryColors: Record<keyof typeof skillCategories, string> = {
+  languages: '#3b82f6', // Brighter Blue
+  backend: '#10b981',   // Brighter Green
+  frontend: '#61DAFB',
+  ai: '#FF6F00',
+  devops: '#ef4444',    // More Red
+  tools: '#a855f7',
+};
+
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -126,8 +135,11 @@ export default function Skills() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: catIndex * 0.1 }}
+              style={{ '--category-color': categoryColors[category as keyof typeof skillCategories] } as React.CSSProperties}
             >
-              <h3 className="category-title">{t(`skills.categories.${category}`)}</h3>
+              <h3 className="category-title" style={{ color: 'var(--category-color)' }}>
+                {t(`skills.categories.${category}`)}
+              </h3>
               <motion.div
                 className="skill-tags"
                 variants={containerVariants}

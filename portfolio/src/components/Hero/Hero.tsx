@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import { ChevronDown, Github, Send, FileCode, ChevronUp } from 'lucide-react';
 import './Hero.css';
 
@@ -135,6 +135,42 @@ export default function Hero() {
 
   const currentFile = CODE_FILES[selectedFileIndex];
 
+  // Drag constraints
+  const DRAG_LIMITS = { left: -200, right: 200, top: -100, bottom: 100 };
+  const COLLISION_THRESHOLD = 30; // px distance to start showing warning
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  // Transform color based on proximity to limits
+  const borderColor = useTransform(
+    [x, y],
+    ([latestX, latestY]: unknown[]) => {
+      const lx = latestX as number;
+      const ly = latestY as number;
+      const isNearLeft = lx <= DRAG_LIMITS.left + COLLISION_THRESHOLD;
+      const isNearRight = lx >= DRAG_LIMITS.right - COLLISION_THRESHOLD;
+      const isNearTop = ly <= DRAG_LIMITS.top + COLLISION_THRESHOLD;
+      const isNearBottom = ly >= DRAG_LIMITS.bottom - COLLISION_THRESHOLD;
+
+      if (isNearLeft || isNearRight || isNearTop || isNearBottom) {
+        return 'rgba(255, 59, 48, 0.8)'; // Warning Red
+      }
+      return 'rgba(168, 85, 247, 0.3)'; // Default Purple
+    }
+  );
+
+  const boxShadowValue = useTransform(
+    borderColor,
+    (color: string) => {
+      if (color === 'rgba(255, 59, 48, 0.8)') {
+         return '0 0 40px rgba(255, 59, 48, 0.4), 0 0 80px rgba(255, 59, 48, 0.2), 0 20px 60px rgba(0, 0, 0, 0.4)';
+      }
+       return '0 0 40px rgba(168, 85, 247, 0.15), 0 0 80px rgba(236, 72, 153, 0.1), 0 20px 60px rgba(0, 0, 0, 0.4)';
+    }
+  );
+
+
   return (
     <section id="home" className="hero">
       <div className="hero-bg">
@@ -249,9 +285,15 @@ export default function Hero() {
           dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
           dragMomentum
           whileDrag={{ scale: 1.02, cursor: 'grabbing' }}
-          style={{ cursor: 'grab' }}
+          style={{ x, y, cursor: 'grab', zIndex: 10 }}
         >
-          <div className="code-window">
+          <motion.div 
+            className="code-window"
+            style={{ 
+              borderColor,
+              boxShadow: boxShadowValue 
+            }}
+          >
             <div className="code-window-header">
               <span className="code-dot red" />
               <span className="code-dot yellow" />
@@ -302,7 +344,7 @@ export default function Hero() {
             <div className="drag-hint">
               <span>⋮⋮ drag me</span>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
 

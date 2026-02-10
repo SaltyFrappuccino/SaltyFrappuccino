@@ -1,16 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Code2, Brain, Rocket, Bot, MousePointerClick, Terminal, Monitor, Edit3 } from 'lucide-react';
+import { MousePointerClick, Terminal, Monitor, Edit3 } from 'lucide-react';
 import FlyingParticles from './FlyingParticles';
+import ConnectedStats from './ConnectedStats';
 import './About.css';
 
-const stats = [
-  { key: 'experience', value: '3+', icon: Code2 },
-  { key: 'projects', value: '50+', icon: Rocket },
-  { key: 'technologies', value: '30+', icon: Brain },
-  { key: 'agents', value: '4', icon: Bot },
-];
+// stats removed in favor of ConnectedStats
+
 
 const focusItems = [
   { key: 'fullstack', icon: '🚀' },
@@ -100,37 +97,19 @@ export default function About() {
                 ))}
               </motion.div>
             </div>
-          </motion.div>
+          </motion.div> {/* Closing about-text here */}
 
-          <div className="about-right">
-            {/* Stats */}
+          <div className="about-right"> {/* Moved about-right to be a sibling of about-text */}
+            {/* Connected Stats (Interactive Triangle) */}
             <motion.div
-              className="about-stats"
+              className="about-stats-wrapper"
               variants={containerVariants}
               initial="hidden"
               animate={isInView ? 'visible' : 'hidden'}
             >
-              {stats.map((stat) => {
-                const Icon = stat.icon;
-                return (
-                  <motion.div
-                    key={stat.key}
-                    className="stat-card"
-                    variants={itemVariants}
-                    whileHover={{
-                      scale: 1.05,
-                      boxShadow: '0 0 30px rgba(0, 255, 249, 0.3)',
-                    }}
-                  >
-                    <div className="stat-icon">
-                      <Icon size={28} />
-                    </div>
-                    <div className="stat-value">{stat.value}</div>
-                    <div className="stat-label">{t(`about.highlights.${stat.key}`)}</div>
-                  </motion.div>
-                );
-              })}
+              <ConnectedStats />
             </motion.div>
+
 
             {/* Dev Tools */}
             <motion.div
