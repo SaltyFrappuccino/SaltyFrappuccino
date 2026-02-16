@@ -4,7 +4,6 @@
   overflow: hidden;
 }
 
-/* Unique Background - Animated Orbs */
 .about::before {
   content: '';
   position: absolute;
@@ -38,7 +37,6 @@
   75% { transform: translate(30px, 20px) scale(1.05); }
 }
 
-/* About Content */
 .about-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -65,7 +63,6 @@
   line-height: 1.8;
 }
 
-/* Philosophy Block */
 .philosophy-block {
   margin-bottom: 32px;
   padding: 24px;
@@ -103,64 +100,116 @@
   border: none;
 }
 
-/* Focus */
-.about-focus h3 {
+.about-focus {
+  margin-top: 4px;
+}
+
+.focus-head {
+  margin-bottom: 18px;
+}
+
+.focus-head h3 {
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 20px;
+  margin-bottom: 6px;
+}
+
+.focus-head p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
 .focus-grid {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
-.focus-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 16px 20px;
-  background: var(--bg-card);
+.focus-card {
+  padding: 16px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.02), transparent), var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  color: var(--text-secondary);
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
   cursor: default;
   position: relative;
   overflow: hidden;
+  min-height: 132px;
 }
 
-.focus-item::before {
+.focus-card::before {
   content: '';
   position: absolute;
-  left: 0;
+  left: 16px;
   top: 0;
-  height: 100%;
-  width: 3px;
-  background: var(--gradient-primary);
-  opacity: 0;
-  transition: opacity var(--transition-fast);
+  width: calc(100% - 32px);
+  height: 2px;
+  background: color-mix(in srgb, var(--focus-color, var(--accent-cyan)) 65%, transparent);
 }
 
-.focus-item:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--accent-cyan);
-  color: var(--text-primary);
-  /* transform handled by framer */
-  box-shadow: var(--glow-cyan);
+.focus-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
-.focus-item:hover::before {
-  opacity: 1;
+.focus-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--focus-color, var(--accent-cyan)) 88%, #fff);
+  background: color-mix(in srgb, var(--focus-color, var(--accent-cyan)) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--focus-color, var(--accent-cyan)) 32%, transparent);
 }
 
 .focus-icon {
-  font-size: 1.5rem;
+  color: var(--focus-color, var(--accent-cyan));
 }
 
-/* Stats - Glowing Cards */
+.focus-name {
+  font-size: 1rem;
+  font-weight: 650;
+  color: var(--text-primary);
+  margin-bottom: 7px;
+  line-height: 1.35;
+}
+
+.focus-description {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.focus-card:hover {
+  background: var(--bg-card-hover);
+  border-color: color-mix(in srgb, var(--focus-color, var(--accent-cyan)) 55%, var(--border-subtle));
+  box-shadow: 0 0 22px color-mix(in srgb, var(--focus-color, var(--accent-cyan)) 18%, transparent);
+}
+
+body.chill-mode .focus-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+body.chill-mode .focus-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+}
+
+body.chill-mode .focus-chip {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.65);
+}
+
 .about-stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -204,7 +253,6 @@
 
 .stat-card:hover {
   border-color: var(--accent-cyan);
-  /* transform handled by framer */
   box-shadow: var(--glow-cyan), var(--shadow-lg);
 }
 
@@ -249,7 +297,6 @@
   z-index: 1;
 }
 
-/* Dev Tools Section */
 .devtools-section {
   position: relative;
 }
@@ -313,7 +360,6 @@
   color: var(--text-muted);
 }
 
-/* Decorations - Animated Lines */
 .about-decoration {
   position: absolute;
   top: 0;
@@ -354,7 +400,6 @@
   50% { transform: translateX(calc(-100vw - 50px)); opacity: 0.3; }
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
   .about-content {
     grid-template-columns: 1fr;
@@ -366,39 +411,59 @@
   }
 
   .about-right {
-    max-width: 600px;
-    margin: 0 auto;
-    width: 100%;
+    max-width: 100%;
+    margin: 0;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .about-stats {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .stat-card {
-    padding: 24px 18px;
+    padding: 20px;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+    align-items: center;
+  }
+  
+  .stat-icon {
+    width: 40px; 
+    height: 40px;
+    margin-bottom: 0;
+    margin-right: 16px;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    order: 2;
+  }
+  
+  .stat-label {
+    order: 1;
+    flex: 1;
   }
 
   .philosophy-block {
-    padding: 18px;
+    padding: 20px;
   }
-}
+  
+  .focus-card {
+    padding: 14px;
+  }
 
-/* Chill mode overrides */
-body.chill-mode .philosophy-block {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.06);
-}
-
-body.chill-mode .philosophy-block::before {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-body.chill-mode .devtool-card {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.06);
+  .focus-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .connected-stats-container {
+    height: 300px;
+    transform: scale(0.8);
+  }
 }
 
 body.chill-mode .devtool-card:hover {
@@ -411,11 +476,10 @@ body.chill-mode .devtool-icon {
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* Connected Stats (Triangle) */
 .connected-stats-container {
   position: relative;
   width: 100%;
-  height: 400px; /* Space for the triangle */
+  height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -434,7 +498,7 @@ body.chill-mode .devtool-icon {
 }
 
 .stat-node {
-  position: absolute; /* Motion values handle x/y translate */
+  position: absolute;
   width: 100px;
   height: 100px;
   background: var(--bg-card);
@@ -446,11 +510,10 @@ body.chill-mode .devtool-icon {
   align-items: center;
   backdrop-filter: blur(10px);
   box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
-  /* Centering the node on its localized 0,0 */
   top: 50%;
   left: 50%;
-  margin-top: -50px; /* Half height */
-  margin-left: -50px; /* Half width */
+  margin-top: -50px;
+  margin-left: -50px;
   z-index: 1;
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
   cursor: grab;

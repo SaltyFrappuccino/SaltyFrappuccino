@@ -4,7 +4,6 @@
   overflow: hidden;
 }
 
-/* Neon cyan pulse on section title */
 .contact .section-title {
   animation: neon-pulse-text 3s ease-in-out infinite;
 }
@@ -127,7 +126,6 @@
   color: var(--contact-color, var(--accent-cyan));
 }
 
-/* Copy Button */
 .copy-btn {
   display: flex;
   align-items: center;
@@ -165,7 +163,6 @@
   text-shadow: 0 0 10px var(--accent-green);
 }
 
-/* Responsive */
 @media (max-width: 600px) {
   .contact-card {
     border-radius: var(--radius-md);
@@ -177,16 +174,23 @@
   }
 
   .contact-icon {
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  .contact-info {
+    flex: 1;
+    min-width: 0;
   }
 
   .contact-value {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     word-break: break-all;
   }
 
   .copy-btn {
-    width: 50px;
+    width: 48px;
+    border-left-color: rgba(255, 255, 255, 0.1);
   }
 }

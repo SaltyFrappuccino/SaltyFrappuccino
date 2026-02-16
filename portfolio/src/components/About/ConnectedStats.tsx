@@ -8,7 +8,7 @@ const TRIANGLE_SIZE = 280;
 const initialNodes = [
   { key: 'experience', icon: Code2, x: 0, y: -TRIANGLE_SIZE / 1.7, value: '3+' },
   { key: 'technologies', icon: Brain, x: -TRIANGLE_SIZE / 1.7, y: TRIANGLE_SIZE / 3, value: '30+' },
-  { key: 'agents', icon: Bot, x: TRIANGLE_SIZE / 1.7, y: TRIANGLE_SIZE / 3, value: '4' },
+  { key: 'systems', icon: Bot, x: TRIANGLE_SIZE / 1.7, y: TRIANGLE_SIZE / 3, value: '4' },
 ];
 
 export default function ConnectedStats() {

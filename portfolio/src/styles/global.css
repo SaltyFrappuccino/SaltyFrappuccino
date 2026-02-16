@@ -1,10 +1,4 @@
-/* ==========================================
-   Modern Vibrant Design System
-   ========================================== */
-
-/* Color Palette - Vibrant but Modern */
 :root {
-  /* Primary Accent Colors */
   --accent-cyan: #00d4ff;
   --accent-purple: #a855f7;
   --accent-pink: #ec4899;
@@ -12,50 +6,41 @@
   --accent-green: #10b981;
   --accent-orange: #f97316;
   
-  /* Gradients */
   --gradient-primary: linear-gradient(135deg, #00d4ff, #a855f7);
   --gradient-secondary: linear-gradient(135deg, #a855f7, #ec4899);
   --gradient-hero: linear-gradient(135deg, #0a0a0f 0%, #0d1117 50%, #0a0f1a 100%);
   
-  /* Backgrounds */
   --bg-primary: #0a0a0f;
   --bg-secondary: #0d1117;
   --bg-tertiary: #161b22;
   --bg-card: rgba(22, 27, 34, 0.8);
   --bg-card-hover: rgba(30, 37, 46, 0.9);
   
-  /* Text Colors */
   --text-primary: #f0f6fc;
   --text-secondary: #8b949e;
   --text-muted: #6e7681;
   
-  /* Borders */
   --border-subtle: rgba(240, 246, 252, 0.1);
   --border-medium: rgba(240, 246, 252, 0.2);
   --border-glow: rgba(0, 212, 255, 0.4);
   
-  /* Glows */
   --glow-cyan: 0 0 20px rgba(0, 212, 255, 0.4);
   --glow-purple: 0 0 20px rgba(168, 85, 247, 0.4);
   --glow-pink: 0 0 20px rgba(236, 72, 153, 0.4);
   
-  /* Shadows */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
   --shadow-glow: 0 0 60px rgba(0, 212, 255, 0.15);
   
-  /* Transitions */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   
-  /* Fonts - Modern Stack */
   --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   
-  /* Spacing */
   --section-padding: 120px 0;
   --container-width: 1200px;
   --radius-sm: 8px;
@@ -63,10 +48,6 @@
   --radius-lg: 16px;
   --radius-xl: 24px;
 }
-
-/* ==========================================
-   Global Reset & Base Styles
-   ========================================== */
 
 *, *::before, *::after {
   margin: 0;
@@ -99,10 +80,6 @@ body {
   flex-direction: column;
 }
 
-/* ==========================================
-   Selection & Scrollbar
-   ========================================== */
-
 ::selection {
   background: var(--accent-purple);
   color: white;
@@ -114,53 +91,35 @@ body {
   height: 0;
 }
 
-/* ==========================================
-   Typography
-   ========================================== */
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+html {
+  font-size: 16px;
 }
 
-h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
-h2 { font-size: clamp(2rem, 4vw, 3rem); }
-h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
-h4 { font-size: 1.25rem; }
-
-p {
-  color: var(--text-secondary);
-  line-height: 1.7;
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-  transition: color var(--transition-fast);
-}
-
-/* ==========================================
-   Neon Text Effect
-   ========================================== */
-
-.neon-text {
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ==========================================
-   Layout
-   ========================================== */
+h1 { font-size: clamp(2rem, 8vw, 4rem); }
+h2 { font-size: clamp(1.75rem, 6vw, 3rem); }
+h3 { font-size: clamp(1.25rem, 4vw, 2rem); }
 
 .container {
   width: 100%;
   max-width: var(--container-width);
   margin: 0 auto;
   padding: 0 24px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+  
+  .section {
+    padding: 60px 0;
+  }
 }
 
 .section {
@@ -175,7 +134,6 @@ a {
   overflow: hidden;
 }
 
-/* Smooth Section Transitions */
 .section::after,
 .section::before,
 .hero::after,
@@ -202,21 +160,14 @@ a {
 }
 
 
-/* Remove top fade from first section/hero */
 main > :first-child::before,
 .hero::before {
   display: none;
 }
 
-/* Remove bottom fade from contact (last section) */
 .contact::after {
   display: none;
 }
-
-/* Variations for specific background colors (if needed per section)
-   The base logic assumes --bg-primary is the common ground, 
-   or transparent lets the next section show through if negative margins were used.
-   Here we just use a simple fade to black/dark at edges.*/
 
 .section-header {
   text-align: center;
@@ -237,10 +188,6 @@ main > :first-child::before,
   font-size: clamp(2rem, 4vw, 2.75rem);
   font-weight: 700;
 }
-
-/* ==========================================
-   Buttons - Vibrant
-   ========================================== */
 
 .btn {
   display: inline-flex;
@@ -304,10 +251,6 @@ main > :first-child::before,
   box-shadow: var(--glow-cyan);
 }
 
-/* ==========================================
-   Cards - Interactive
-   ========================================== */
-
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
@@ -343,10 +286,6 @@ main > :first-child::before,
   box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 
-/* ==========================================
-   Tags
-   ========================================== */
-
 .tag {
   display: inline-flex;
   align-items: center;
@@ -370,10 +309,6 @@ main > :first-child::before,
   background: rgba(0, 212, 255, 0.2);
   box-shadow: var(--glow-cyan);
 }
-
-/* ==========================================
-   Glitch Effect (On Hover)
-   ========================================== */
 
 .glitch {
   position: relative;
@@ -420,10 +355,6 @@ main > :first-child::before,
   80% { clip-path: inset(20% 0 60% 0); transform: translate(-3px); }
 }
 
-/* ==========================================
-   Floating Animation
-   ========================================== */
-
 @keyframes float {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-20px) rotate(2deg); }
@@ -440,12 +371,7 @@ main > :first-child::before,
   100% { background-position: 0% 50%; }
 }
 
-/* ==========================================
-   Chill Mode – Liquid Glass / Minimalistic
-   ========================================== */
-
 body.chill-mode {
-  /* Softer, muted palette */
   --accent-cyan: #94a3b8;
   --accent-purple: #a1a1aa;
   --accent-pink: #d4d4d8;
@@ -464,13 +390,11 @@ body.chill-mode {
   --text-muted: rgba(255, 255, 255, 0.3);
 }
 
-/* Disable all glitch effects */
 body.chill-mode .glitch::before,
 body.chill-mode .glitch::after {
   display: none;
 }
 
-/* Neon text → clean solid */
 body.chill-mode .neon-text {
   background: linear-gradient(135deg, rgba(255,255,255,0.85), rgba(200,200,210,0.7));
   -webkit-background-clip: text;
@@ -478,13 +402,11 @@ body.chill-mode .neon-text {
   background-clip: text;
 }
 
-/* Section subtitle → muted */
 body.chill-mode .section-subtitle {
   color: rgba(255, 255, 255, 0.35);
   text-shadow: none;
 }
 
-/* Glass cards */
 body.chill-mode .card,
 body.chill-mode .stat-card,
 body.chill-mode .skill-category,
@@ -508,7 +430,6 @@ body.chill-mode .card::before {
   background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
 }
 
-/* Buttons → frosted glass */
 body.chill-mode .btn-primary {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -537,7 +458,6 @@ body.chill-mode .btn-secondary:hover {
   box-shadow: none;
 }
 
-/* Tags → muted glass */
 body.chill-mode .skill-tag {
   background: rgba(255, 255, 255, 0.04);
   border-color: rgba(255, 255, 255, 0.06);
@@ -548,18 +468,12 @@ body.chill-mode .skill-tag:hover {
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* ==========================================
-   Hide SynthWave-specific effects in chill
-   ========================================== */
-
-/* Hide Hero synthwave grid + sun + orbs */
 body.chill-mode .synthwave-grid,
 body.chill-mode .synthwave-sun,
 body.chill-mode .hero-orb {
   display: none !important;
 }
 
-/* Hide all Canvas backgrounds */
 body.chill-mode .flying-particles-canvas,
 body.chill-mode .interactive-cosmos-canvas,
 body.chill-mode .data-cubes-canvas,
@@ -568,18 +482,11 @@ body.chill-mode .particle-canvas {
   display: none !important;
 }
 
-/* Hide background decorations */
 body.chill-mode .skills-bg,
 body.chill-mode .about-decoration,
 body.chill-mode .contact-bg {
   display: none !important;
 }
-
-/* ==========================================
-   Liquid Glass Section Backgrounds
-   ========================================== */
-
-/* Hero → clean minimal */
 body.chill-mode .hero {
   background: linear-gradient(180deg, #0f1117 0%, #141720 50%, #0f1117 100%);
 }
@@ -607,7 +514,6 @@ body.chill-mode .cursor {
   text-shadow: none;
 }
 
-/* Code window → frosted glass */
 body.chill-mode .code-window {
   background: rgba(255, 255, 255, 0.03);
   border-color: rgba(255, 255, 255, 0.06);
@@ -653,7 +559,6 @@ body.chill-mode .file-dropdown-item.active {
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* About → clean dark */
 body.chill-mode .about {
   background: linear-gradient(180deg, #111319 0%, #0f1117 100%);
 }
@@ -663,7 +568,6 @@ body.chill-mode .about::after {
   display: none;
 }
 
-/* Skills → clean dark */
 body.chill-mode .skills {
   background: linear-gradient(180deg, #0f1117 0%, #111319 100%);
 }
@@ -672,7 +576,6 @@ body.chill-mode .category-title {
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* Projects → clean dark */
 body.chill-mode .projects {
   background: linear-gradient(180deg, #111319 0%, #0f1117 100%);
 }
@@ -682,7 +585,6 @@ body.chill-mode .projects::after {
   display: none;
 }
 
-/* Contact → clean dark */
 body.chill-mode .contact {
   background: linear-gradient(180deg, #0f1117 0%, #111319 100%);
 }
@@ -701,7 +603,6 @@ body.chill-mode .contact-card::before {
   opacity: 0.3;
 }
 
-/* Header → glass */
 body.chill-mode .header.scrolled {
   background: rgba(15, 17, 23, 0.8);
   border-bottom-color: rgba(255, 255, 255, 0.04);
@@ -716,13 +617,11 @@ body.chill-mode .nav-link-underline {
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* Footer → subtle */
 body.chill-mode .footer {
   background: rgba(10, 10, 15, 0.9);
   border-top-color: rgba(255, 255, 255, 0.04);
 }
 
-/* Scroll indicator */
 body.chill-mode .scroll-indicator {
   color: rgba(255, 255, 255, 0.3);
 }
@@ -731,7 +630,6 @@ body.chill-mode .scroll-arrow {
   color: rgba(255, 255, 255, 0.4);
 }
 
-/* Project controls */
 body.chill-mode .search-input,
 body.chill-mode .filter-btn,
 body.chill-mode .sort-select {
@@ -749,7 +647,6 @@ body.chill-mode .project-card:hover {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Stat icons → muted */
 body.chill-mode .stat-icon {
   color: rgba(255, 255, 255, 0.4);
 }
@@ -762,7 +659,6 @@ body.chill-mode .stat-label {
   color: rgba(255, 255, 255, 0.35);
 }
 
-/* ChillMode toggle button in chill state */
 body.chill-mode .chill-toggle {
   background: rgba(255, 255, 255, 0.04);
   border-color: rgba(255, 255, 255, 0.08);
@@ -776,16 +672,11 @@ body.chill-mode .chill-toggle:hover {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Smooth transition for everything */
 body.chill-mode *,
 body.chill-mode *::before,
 body.chill-mode *::after {
   transition-duration: 0.5s !important;
 }
-
-/* ==========================================
-   Responsive
-   ========================================== */
 
 @media (max-width: 768px) {
   :root {

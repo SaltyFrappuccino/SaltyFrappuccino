@@ -4,7 +4,6 @@
   overflow: hidden;
 }
 
-/* Unique Background - Floating Particles */
 .skills::before {
   content: '';
   position: absolute;
@@ -49,7 +48,6 @@
   50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.2); }
 }
 
-/* CodeWars Section */
 .codewars-section {
   text-align: center;
   margin-bottom: 48px;
@@ -132,7 +130,6 @@
 .category-title {
   font-size: 0.95rem;
   font-weight: 600;
-  /* Color set inline via style prop */
   margin-bottom: 18px;
   padding-bottom: 14px;
   border-bottom: 1px solid color-mix(in srgb, var(--category-color) 20%, var(--border-subtle));
@@ -177,7 +174,6 @@
   box-shadow: 0 0 6px currentColor;
 }
 
-/* Background Elements */
 .skills-bg {
   position: absolute;
   top: 0;
@@ -188,16 +184,25 @@
 }
 
 .hex-grid {
-  display: none; /* Replaced with dots pattern */
+  display: none;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .skills-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .skill-category {
-    padding: 24px;
+    padding: 20px;
+  }
+  
+  .skill-tag {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+  
+  .codewars-badge {
+    max-width: 80%;
   }
 }

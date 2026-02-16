@@ -63,7 +63,82 @@
 
 
 
-/* Glowing Neon Text */
+.footer-antigravity {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.footer-antigravity-label {
+  opacity: 0.7;
+}
+
+.footer-antigravity-name {
+  position: relative;
+  font-weight: 700;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  cursor: default;
+}
+
+.footer-antigravity-tooltip {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.92);
+  width: 260px;
+  padding: 14px 16px;
+  background: rgba(13, 17, 23, 0.96);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  -webkit-text-fill-color: var(--text-secondary);
+  line-height: 1.55;
+  text-align: center;
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(168, 85, 247, 0.12);
+  z-index: 50;
+}
+
+.footer-antigravity-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid rgba(168, 85, 247, 0.35);
+}
+
+.footer-antigravity-name:hover .footer-antigravity-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+  pointer-events: auto;
+}
+
+body.chill-mode .footer-antigravity-name {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.chill-mode .footer-antigravity-tooltip {
+  background: rgba(15, 17, 23, 0.98);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+}
+
 .footer-neon-text {
   font-size: 0.85rem;
   font-weight: 500;
@@ -90,7 +165,6 @@
   z-index: -1;
 }
 
-/* Decoration - Animated Glow Line */
 .footer-decoration {
   position: absolute;
   top: 0;
@@ -120,7 +194,6 @@
   100% { background-position: -200% 0; }
 }
 
-/* Responsive */
 @media (max-width: 600px) {
   .footer {
     padding: 40px 0 30px;

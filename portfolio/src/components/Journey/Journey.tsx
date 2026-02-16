@@ -4,7 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import {
   GraduationCap,
   Gamepad2,
-  Brain,
+  Briefcase,
   Code2,
   BookOpen,
   Sparkles,
@@ -15,7 +15,7 @@ import './Journey.css';
 const journeyItems = [
   { key: 'quantorium1', icon: GraduationCap, color: '#10b981' },
   { key: 'gameford', icon: Gamepad2, color: '#f97316' },
-  { key: 'sber_ai', icon: Brain, color: '#3b82f6' },
+  { key: 'sber_engineer', icon: Briefcase, color: '#3b82f6' },
   { key: 'sber_fullstack', icon: Code2, color: '#a855f7' },
   { key: 'teacher', icon: BookOpen, color: '#ec4899' },
   { key: 'current', icon: Sparkles, color: '#00d4ff' },

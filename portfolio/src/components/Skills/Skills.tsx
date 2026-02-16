@@ -36,12 +36,12 @@ const skillCategories = {
     { name: 'SASS', color: '#CC6699' },
     { name: 'Framer Motion', color: '#00D8FF' },
   ],
-  ai: [
-    { name: 'LangChain', color: '#1C3C3C' },
-    { name: 'LangGraph', color: '#2D5A5A' },
-    { name: 'scikit-learn', color: '#F7931E' },
-    { name: 'TensorFlow', color: '#FF6F00' },
+  data: [
     { name: 'Pandas', color: '#150458' },
+    { name: 'NumPy', color: '#4DABCF' },
+    { name: 'Jupyter', color: '#F37626' },
+    { name: 'Apache Airflow', color: '#017CEE' },
+    { name: 'Metabase', color: '#509EE3' },
   ],
   devops: [
     { name: 'Docker', color: '#2496ED' },
@@ -69,7 +69,7 @@ const categoryColors: Record<keyof typeof skillCategories, string> = {
   languages: '#3b82f6',
   backend: '#10b981',
   frontend: '#61DAFB',
-  ai: '#FF6F00',
+  data: '#FF6F00',
   devops: '#ef4444',
   tools: '#a855f7',
 };

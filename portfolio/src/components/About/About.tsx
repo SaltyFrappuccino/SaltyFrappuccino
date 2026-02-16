@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { MousePointerClick, Terminal, Monitor, Edit3 } from 'lucide-react';
+import { useRef, type CSSProperties } from 'react';
+import { MousePointerClick, Terminal, Monitor, Edit3, Layers3, Bot, ServerCog, Palette } from 'lucide-react';
 import FlyingParticles from './FlyingParticles';
 import ConnectedStats from './ConnectedStats';
 import './About.css';
@@ -10,10 +10,10 @@ import './About.css';
 
 
 const focusItems = [
-  { key: 'fullstack', icon: '🚀' },
-  { key: 'ai', icon: '🤖' },
-  { key: 'backend', icon: '⚡' },
-  { key: 'frontend', icon: '🎨' },
+  { key: 'fullstack', icon: Layers3, color: '#00d4ff' },
+  { key: 'automation', icon: Bot, color: '#a855f7' },
+  { key: 'backend', icon: ServerCog, color: '#10b981' },
+  { key: 'frontend', icon: Palette, color: '#f97316' },
 ];
 
 const devTools = [
@@ -75,7 +75,10 @@ export default function About() {
             </motion.div>
 
             <div className="about-focus">
-              <h3>{t('about.focus.title')}</h3>
+              <div className="focus-head">
+                <h3>{t('about.focus.title')}</h3>
+                <p>{t('about.focus.subtitle')}</p>
+              </div>
               <motion.div
                 className="focus-grid"
                 variants={containerVariants}
@@ -85,12 +88,17 @@ export default function About() {
                 {focusItems.map((item) => (
                   <motion.div
                     key={item.key}
-                    className="focus-item"
+                    className="focus-card"
                     variants={itemVariants}
-                    whileHover={{ scale: 1.05, x: 10 }}
+                    whileHover={{ y: -4 }}
+                    style={{ '--focus-color': item.color } as CSSProperties}
                   >
-                    <span className="focus-icon">{item.icon}</span>
-                    <span>{t(`about.focus.items.${item.key}`)}</span>
+                    <div className="focus-card-top">
+                      <span className="focus-chip">{t(`about.focus.items.${item.key}.tag`)}</span>
+                      <item.icon className="focus-icon" size={18} />
+                    </div>
+                    <h4 className="focus-name">{t(`about.focus.items.${item.key}.title`)}</h4>
+                    <p className="focus-description">{t(`about.focus.items.${item.key}.desc`)}</p>
                   </motion.div>
                 ))}
               </motion.div>
@@ -123,7 +131,7 @@ export default function About() {
                       key={tool.key}
                       className="devtool-card"
                       whileHover={{ scale: 1.05, y: -3 }}
-                      style={{ '--tool-color': tool.color } as React.CSSProperties}
+                      style={{ '--tool-color': tool.color } as CSSProperties}
                     >
                       <div className="devtool-icon">
                         <Icon size={20} />

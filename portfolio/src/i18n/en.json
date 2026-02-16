@@ -13,8 +13,8 @@
     "name": "Alexander",
     "nickname": "SaltyFrappuccino",
     "nameExplanation": "Salty Caramel + Frappuccino = SaltyFrappuccino. My favorite coffee, hence the name, and I'm a coffee addict in general. ☕",
-    "role": "Fullstack Developer & AI Engineer",
-    "description": "Building the future with code. Creating AI agents, fullstack applications, and everything in between.",
+    "role": "Fullstack Developer & Systems Engineer",
+    "description": "Building products with character: fullstack apps, complex integrations, and reliable systems.",
     "cta": {
       "projects": "View Projects",
       "contact": "Get in Touch"
@@ -24,35 +24,52 @@
   "about": {
     "title": "About Me",
     "subtitle": "Who am I?",
-    "description": "I'm Alexander, 21 years old, from Russia. AI Agent Systems Specialist at Sber and a teacher at Quantorium. I create intelligent AI agents, build scalable web applications, and teach the next generation of developers.",
+    "description": "I'm Alexander, 21 years old, from Russia. Software engineer at Sber and a teacher at Quantorium. I build scalable web applications, system integrations, and teach the next generation of developers.",
     "highlights": {
       "experience": "Years of Experience",
       "projects": "Projects Completed",
       "technologies": "Technologies Mastered",
-      "agents": "AI Agents in Prod"
+      "systems": "Systems in Prod"
     },
     "focus": {
       "title": "Current Focus",
+      "subtitle": "What I am shipping and leveling up right now",
       "items": {
-        "fullstack": "Fullstack Development",
-        "ai": "AI Agents & LLM Integration",
-        "backend": "High-Performance Backend Systems",
-        "frontend": "Modern UI/UX Design"
+        "fullstack": {
+          "tag": "Ship",
+          "title": "Features From Idea to Release",
+          "desc": "Architecture, APIs, frontend, and short high-velocity iterations."
+        },
+        "automation": {
+          "tag": "Automation",
+          "title": "Workflow Automation in Production",
+          "desc": "Integrations and services that remove routine and speed up teams."
+        },
+        "backend": {
+          "tag": "Scale",
+          "title": "Fast and Resilient Backend",
+          "desc": "Reliability under load, observability, and clean service contracts."
+        },
+        "frontend": {
+          "tag": "Neon UI",
+          "title": "Interfaces With Character",
+          "desc": "Bold visual style, clean motion, and UX that actually feels alive."
+        }
       }
     },
     "philosophy": {
-      "title": "🤖 AI & Coding",
-      "text": "Fighting progress is futile. The best approach is when AI is your programming partner, not the programmer itself. AI amplifies the developer but doesn't replace them."
+      "title": "How I Build",
+      "text": "Fast and high-quality delivery comes from architecture discipline, clean code, and focus on real user value."
     },
     "devtools": {
-      "title": "🛠 My Tools",
+      "title": "Tooling I Use",
       "cursor": {
         "name": "Cursor",
-        "desc": "AI-powered development, personal projects"
+        "desc": "Primary environment for product work and personal builds"
       },
       "antigravity": {
         "name": "Antigravity",
-        "desc": "AI pair-programming, complex tasks"
+        "desc": "Experiments, fast prototyping, and hard problem solving"
       },
       "vscode": {
         "name": "VS Code",
@@ -78,15 +95,15 @@
         "title": "GameFord — First Job",
         "desc": "First professional experience in gamedev. Diving into real-world development."
       },
-      "sber_ai": {
+      "sber_engineer": {
         "period": "Age 18",
-        "title": "Sber — AI Engineer",
-        "desc": "Joining Russia's largest IT company. Starting the journey in artificial intelligence."
+        "title": "Sber — Software Engineer",
+        "desc": "Joined Russia's largest IT company. Worked on production services and enterprise systems."
       },
       "sber_fullstack": {
         "period": "At Sber",
         "title": "Sber — Fullstack Developer",
-        "desc": "Expanding expertise: from AI to full-fledged fullstack development."
+        "desc": "Expanded from internal services to full product-oriented fullstack development."
       },
       "teacher": {
         "period": "Age 19",
@@ -95,8 +112,8 @@
       },
       "current": {
         "period": "Now",
-        "title": "AI Agent Systems + Teacher",
-        "desc": "AI Agent Systems Specialist at Sber. Launched 4 AI agents to production. Continuing to teach at Quantorium."
+        "title": "Systems Development + Teaching",
+        "desc": "Building and improving production systems at Sber. Continuing to teach at Quantorium."
       }
     }
   },
@@ -170,10 +187,11 @@
     "cta": "Send Message"
   },
   "footer": {
-
     "madeWith": "Made with",
     "and": "and",
     "poweredBy": "Powered by",
-    "tagline": "Powered by caffeine and neon dreams"
+    "tagline": "Powered by caffeine and neon dreams",
+    "assistedBy": "Assisted by",
+    "antigravityTooltip": "Helped craft SVG icons, color gradients and interface visual polish"
   }
 }

@@ -11,7 +11,6 @@
   z-index: 0;
 }
 
-/* CTA Banner */
 .achievements-cta-banner {
   display: flex;
   align-items: center;
@@ -39,7 +38,6 @@
   color: var(--accent-cyan);
 }
 
-/* Grid */
 .achievements-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -50,7 +48,6 @@
   align-content: start;
 }
 
-/* Card */
 .achievement-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
@@ -67,7 +64,6 @@
   transform: translateY(-5px) scale(1.02);
 }
 
-/* Preview */
 .achievement-preview {
   position: relative;
   width: 100%;
@@ -106,7 +102,6 @@
   opacity: 1;
 }
 
-/* PDF Preview */
 .pdf-preview {
   display: flex;
   flex-direction: column;
@@ -126,7 +121,6 @@
   color: var(--text-muted);
 }
 
-/* Info */
 .achievement-info {
   padding: 16px 20px;
 }
@@ -182,7 +176,6 @@
   box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
 }
 
-/* PDF card purple accent */
 .achievement-card.pdf:hover {
   border-color: rgba(168, 85, 247, 0.4);
   box-shadow: 0 0 30px rgba(168, 85, 247, 0.1), var(--shadow-lg);
@@ -204,7 +197,6 @@
   box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
 }
 
-/* Lightbox */
 .lightbox-overlay {
   position: fixed;
   inset: 0;
@@ -263,7 +255,6 @@
   border: none;
 }
 
-/* Footer Extras */
 .footer-separator {
   margin: 0 8px;
   color: var(--text-muted);
@@ -278,7 +269,6 @@
   background-clip: text;
 }
 
-/* Filters */
 .achievements-filters {
   display: flex;
   align-items: center;
@@ -381,7 +371,6 @@
   color: var(--accent-cyan);
 }
 
-/* Empty State */
 .achievements-empty {
   grid-column: 1 / -1;
   display: flex;
@@ -402,7 +391,6 @@
   margin: 0;
 }
 
-/* Pagination */
 .achievements-pagination {
   display: flex;
   align-items: center;
@@ -467,7 +455,6 @@
   box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .achievements-grid {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -507,7 +494,6 @@
   }
 }
 
-/* Chill mode */
 body.chill-mode .achievements {
   background: linear-gradient(180deg, #0f1117 0%, #111319 100%);
 }

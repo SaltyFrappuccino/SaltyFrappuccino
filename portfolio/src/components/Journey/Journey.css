@@ -2,9 +2,14 @@
   position: relative;
   background: var(--bg-secondary);
   overflow: hidden;
+  justify-content: flex-start;
+  padding-top: 100px;
 }
 
-/* Background Glows */
+.journey::before {
+  display: none;
+}
+
 .journey-bg {
   position: absolute;
   inset: 0;
@@ -13,7 +18,15 @@
   z-index: 0;
 }
 
-/* Timeline */
+.journey .container {
+  position: relative;
+  z-index: 3;
+}
+
+.journey .section-header {
+  margin-bottom: 44px;
+}
+
 .timeline {
   position: relative;
   max-width: 900px;
@@ -30,16 +43,18 @@
   background: linear-gradient(
     180deg,
     transparent 0%,
-    var(--accent-cyan) 15%,
-    var(--accent-purple) 50%,
-    var(--accent-pink) 85%,
+    #10b981 12%,
+    #f97316 30%,
+    #3b82f6 47%,
+    #a855f7 64%,
+    #ec4899 80%,
+    #00d4ff 94%,
     transparent 100%
   );
   transform: translateX(-50%);
   box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
 }
 
-/* Timeline Item */
 .timeline-item {
   position: relative;
   display: flex;
@@ -58,7 +73,6 @@
   padding-left: calc(50% + 40px);
 }
 
-/* Timeline Node */
 .timeline-node {
   position: absolute;
   left: 50%;
@@ -79,7 +93,6 @@
   transform: translateX(-50%) scale(1.15);
 }
 
-/* Timeline Card */
 .timeline-card {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
@@ -139,7 +152,6 @@
   line-height: 1.6;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .timeline-line {
     left: 24px;
@@ -172,7 +184,6 @@
   }
 }
 
-/* Chill mode */
 body.chill-mode .journey {
   background: linear-gradient(180deg, #111319 0%, #0f1117 100%);
 }

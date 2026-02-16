@@ -24,8 +24,16 @@ export default function Footer() {
             <Coffee className="coffee-icon" size={16} />
           </div>
 
+          <div className="footer-antigravity">
+            <span className="footer-antigravity-label">{t('footer.assistedBy')}</span>
+            <span className="footer-antigravity-name">
+              Antigravity
+              <span className="footer-antigravity-tooltip">
+                {t('footer.antigravityTooltip')}
+              </span>
+            </span>
+          </div>
 
-          
           <p className="footer-neon-text">{t('footer.tagline')}</p>
         </div>
       </div>

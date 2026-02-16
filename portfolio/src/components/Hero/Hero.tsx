@@ -16,7 +16,7 @@ const CODE_FILES = [
   
   skills: [
     "Fullstack",
-    "AI Engineering",
+    "Platform Engineering",
     "System Design"
   ],
   
@@ -38,7 +38,7 @@ const CODE_FILES = [
     
     "skills": [
         "Fullstack",
-        "AI Engineering",
+        "Platform Engineering",
         "System Design"
     ],
     
@@ -66,7 +66,7 @@ var developer = Developer{
     Location: "Russia",
     Skills:   []string{
         "Fullstack",
-        "AI Engineering",
+        "Platform Engineering",
         "System Design",
     },
 }
@@ -86,7 +86,7 @@ func GetDrink() string {
     
     String[] skills = {
         "Fullstack",
-        "AI Engineering",
+        "Platform Engineering",
         "System Design"
     };
     
@@ -113,7 +113,7 @@ const DEVELOPER: Developer = Developer {
     location: "Russia",
     skills: vec![
         "Fullstack",
-        "AI Engineering",
+        "Platform Engineering",
         "System Design"
     ],
 };
