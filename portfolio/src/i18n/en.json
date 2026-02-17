@@ -59,7 +59,7 @@
     },
     "philosophy": {
       "title": "How I Build",
-      "text": "Fast and high-quality delivery comes from architecture discipline, clean code, and focus on real user value."
+      "text": "I ship fast, but code must outlive a single sprint. A working solution today beats a perfect one next month."
     },
     "devtools": {
       "title": "Tooling I Use",
