@@ -72,7 +72,7 @@
         "desc": "Эксперименты, быстрые прототипы, сложные кейсы"
       },
       "vscode": {
-        "name": "VS Code",
+        "name": "GigaIDE",
         "desc": "Java в Сбере, enterprise-разработка"
       },
       "nvim": {
