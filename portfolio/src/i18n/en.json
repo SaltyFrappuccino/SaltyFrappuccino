@@ -29,7 +29,34 @@
       "experience": "Years of Experience",
       "projects": "Projects Completed",
       "technologies": "Technologies Mastered",
-      "systems": "Systems in Prod"
+      "systems": "Agents in Prod"
+    },
+    "agents": {
+      "badge": "live",
+      "hint": "Tap to open",
+      "trigger": "Open agents list",
+      "kicker": "Production agents",
+      "title": "Agents in production",
+      "subtitle": "Four agents already used in working flows for specific product and platform tasks.",
+      "close": "Close agents dialog",
+      "items": {
+        "arti": {
+          "name": "Arti",
+          "desc": "Compares code, Confluence docs, Jira tasks, Zephyr tests, and specs, then produces diffs and reports."
+        },
+        "bpmnWorkbench": {
+          "name": "BPMN Workbench",
+          "desc": "BPMN editing through an LLM plus conflict resolution."
+        },
+        "aiProfiler": {
+          "name": "AI Profiler (DataLineage v2)",
+          "desc": "Tracks data lineage inside a single service."
+        },
+        "cohortAnalysis": {
+          "name": "AI Agent for Cohort Analysis",
+          "desc": "Helps build and analyze cohorts without manual data stitching."
+        }
+      }
     },
     "focus": {
       "title": "Current Focus",
