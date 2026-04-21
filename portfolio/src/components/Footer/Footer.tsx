@@ -27,7 +27,7 @@ export default function Footer() {
           <div className="footer-antigravity">
             <span className="footer-antigravity-label">{t('footer.assistedBy')}</span>
             <span className="footer-antigravity-name">
-              Antigravity
+              Codex
               <span className="footer-antigravity-tooltip">
                 {t('footer.antigravityTooltip')}
               </span>
