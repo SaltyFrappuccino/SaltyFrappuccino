@@ -36,7 +36,7 @@ Frontend     React · Next.js · Redux · Vite · Bun · SASS · Framer Motion
 AI/ML        LangChain · LangGraph · TensorFlow · scikit-learn · Pandas
 DevOps       Docker · AWS · Google Cloud · Vercel · GitHub Actions · Nginx
 Databases    PostgreSQL · MySQL · Redis · SQLite
-Tools        Cursor · Antigravity · VS Code · Neovim · DataGrip · DataSpell
+Tools        Codex · Copilot · VS Code · Neovim · DataGrip · DataSpell
 ```
 
 ---

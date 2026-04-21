@@ -53,8 +53,8 @@ const skillCategories = {
     { name: 'Nginx', color: '#009639' },
   ],
   tools: [
-    { name: 'Cursor', color: '#00d4ff' },
-    { name: 'Antigravity', color: '#a855f7' },
+    { name: 'Codex', color: '#00d4ff' },
+    { name: 'Copilot', color: '#a855f7' },
     { name: 'VS Code', color: '#007ACC' },
     { name: 'Neovim', color: '#57A143' },
     { name: 'WAMP', color: '#FF0080' },
