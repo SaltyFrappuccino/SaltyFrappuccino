@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { motion, useInView } from 'framer-motion';
 import { useRef, type CSSProperties } from 'react';
-import { MousePointerClick, Terminal, Monitor, Edit3, Layers3, Bot, ServerCog, Palette } from 'lucide-react';
+import { Monitor, Edit3, SquareTerminal, Bot, Layers3, ServerCog, Palette } from 'lucide-react';
 import FlyingParticles from './FlyingParticles';
 import ConnectedStats from './ConnectedStats';
 import './About.css';
@@ -17,10 +17,10 @@ const focusItems = [
 ];
 
 const devTools = [
-  { key: 'cursor', icon: MousePointerClick, color: '#00d4ff' },
-  { key: 'antigravity', icon: Terminal, color: '#a855f7' },
-  { key: 'vscode', icon: Monitor, color: '#3b82f6' },
+  { key: 'gigaide', icon: Monitor, color: '#3b82f6' },
   { key: 'nvim', icon: Edit3, color: '#10b981' },
+  { key: 'vscode', icon: SquareTerminal, color: '#00d4ff' },
+  { key: 'codex', icon: Bot, color: '#a855f7' },
 ];
 
 const containerVariants = {

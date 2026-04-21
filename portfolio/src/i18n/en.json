@@ -63,21 +63,21 @@
     },
     "devtools": {
       "title": "Tooling I Use",
-      "cursor": {
-        "name": "Cursor",
-        "desc": "Primary environment for product work and personal builds"
-      },
-      "antigravity": {
-        "name": "Antigravity",
-        "desc": "Experiments, fast prototyping, and hard problem solving"
-      },
-      "vscode": {
+      "gigaide": {
         "name": "GigaIDE",
         "desc": "Java at Sber, enterprise development"
       },
       "nvim": {
         "name": "Neovim",
         "desc": "Chill coding, C++, ASMR, Kata solving"
+      },
+      "vscode": {
+        "name": "VS Code",
+        "desc": "Everyday editing, debugging, and quick project passes"
+      },
+      "codex": {
+        "name": "Codex",
+        "desc": "Agentic coding, repo work, and fast implementation loops"
       }
     }
   },
