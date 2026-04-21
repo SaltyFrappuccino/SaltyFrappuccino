@@ -97,7 +97,7 @@ export default function FlyingParticles() {
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < MOUSE_RADIUS) {
+        if (dist > 0 && dist < MOUSE_RADIUS) {
           const force = ((MOUSE_RADIUS - dist) / MOUSE_RADIUS) * 1.5;
           p.x += (dx / dist) * force;
           p.y += (dy / dist) * force;

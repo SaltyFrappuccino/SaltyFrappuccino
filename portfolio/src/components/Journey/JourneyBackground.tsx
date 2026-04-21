@@ -19,18 +19,18 @@ export default function JourneyBackground({ isActive = true }: JourneyBackground
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
 
-    const STAR_COUNT = 200; 
-    const SPEED = 2; 
-    
+    const STAR_COUNT = 200;
+    const SPEED = 2;
+
     if (starsRef.current.length === 0) {
-        for (let i = 0; i < STAR_COUNT; i++) {
-            starsRef.current.push({
-                x: (Math.random() - 0.5) * width,
-                y: (Math.random() - 0.5) * height,
-                z: Math.random() * width,
-                o: Math.random() 
-            });
-        }
+      for (let i = 0; i < STAR_COUNT; i++) {
+        starsRef.current.push({
+          x: (Math.random() - 0.5) * width,
+          y: (Math.random() - 0.5) * height,
+          z: Math.random() * width,
+          o: Math.random(),
+        });
+      }
     }
 
     let mouseX = 0;
@@ -41,19 +41,27 @@ export default function JourneyBackground({ isActive = true }: JourneyBackground
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
       canvasRect = canvas.getBoundingClientRect();
+      starsRef.current.forEach((star) => {
+        if (star.z > width) {
+          star.z = Math.random() * width;
+        }
+      });
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-        mouseX = (e.clientX - canvasRect.left - width / 2) * 0.5;
-        mouseY = (e.clientY - canvasRect.top - height / 2) * 0.5;
+      mouseX = (e.clientX - canvasRect.left - width / 2) * 0.5;
+      mouseY = (e.clientY - canvasRect.top - height / 2) * 0.5;
+    };
+    const handleScroll = () => {
+      canvasRect = canvas.getBoundingClientRect();
     };
 
     window.addEventListener('resize', handleResize);
-    window.addEventListener('scroll', () => { canvasRect = canvas.getBoundingClientRect(); });
+    window.addEventListener('scroll', handleScroll);
     window.addEventListener('mousemove', handleMouseMove);
 
     let lastTime = 0;
-    
+
     const draw = (time: number) => {
       if (!isActive) {
         return;
@@ -64,8 +72,8 @@ export default function JourneyBackground({ isActive = true }: JourneyBackground
 
       const dt = Math.min(deltaTime, 50);
 
-       ctx.fillStyle = 'rgba(10, 10, 18, 0.8)';
-       ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = 'rgba(10, 10, 18, 0.8)';
+      ctx.fillRect(0, 0, width, height);
 
       const cx = width / 2;
       const cy = height / 2;
@@ -74,29 +82,29 @@ export default function JourneyBackground({ isActive = true }: JourneyBackground
         star.z -= SPEED * (dt / 16);
 
         if (star.z <= 0) {
-            star.x = (Math.random() - 0.5) * width;
-            star.y = (Math.random() - 0.5) * height;
-            star.z = width;
+          star.x = (Math.random() - 0.5) * width;
+          star.y = (Math.random() - 0.5) * height;
+          star.z = width;
         }
 
         const px = (star.x - mouseX) / star.z * width + cx;
         const py = (star.y - mouseY) / star.z * height + cy;
+        const depthRatio = Math.min(star.z / width, 1);
+        const size = Math.max(0.2, (1 - depthRatio) * 4);
 
-        const size = (1 - star.z / width) * 4; 
-        
         if (px >= 0 && px <= width && py >= 0 && py <= height) {
-            const opacity = (1 - star.z / width);
-            
-            const distRatio = Math.sqrt(Math.pow(px - cx, 2) + Math.pow(py - cy, 2)) / (width / 2);
-            if (distRatio < 0.5) {
-                ctx.fillStyle = `rgba(0, 212, 255, ${opacity})`;
-            } else {
-                ctx.fillStyle = `rgba(168, 85, 247, ${opacity})`;
-            }
+          const opacity = 1 - depthRatio;
+          const distRatio = Math.sqrt(Math.pow(px - cx, 2) + Math.pow(py - cy, 2)) / (width / 2);
 
-            ctx.beginPath();
-            ctx.arc(px, py, size, 0, Math.PI * 2);
-            ctx.fill();
+          if (distRatio < 0.5) {
+            ctx.fillStyle = `rgba(0, 212, 255, ${opacity})`;
+          } else {
+            ctx.fillStyle = `rgba(168, 85, 247, ${opacity})`;
+          }
+
+          ctx.beginPath();
+          ctx.arc(px, py, size, 0, Math.PI * 2);
+          ctx.fill();
         }
       });
 
@@ -109,7 +117,7 @@ export default function JourneyBackground({ isActive = true }: JourneyBackground
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', () => { canvasRect = canvas.getBoundingClientRect(); });
+      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('mousemove', handleMouseMove);
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };

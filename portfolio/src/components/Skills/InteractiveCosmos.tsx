@@ -72,11 +72,14 @@ export default function InteractiveCosmos() {
         y: (e.clientY - rect.top - canvas.height / 2) / canvas.height,
       };
     };
+    const onScroll = () => {
+      resizeCanvas();
+    };
 
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
     window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('scroll', () => { resizeCanvas(); });
+    window.addEventListener('scroll', onScroll);
 
     let time = 0;
 
@@ -153,7 +156,7 @@ export default function InteractiveCosmos() {
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('scroll', resizeCanvas); 
+      window.removeEventListener('scroll', onScroll);
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
   }, []);
